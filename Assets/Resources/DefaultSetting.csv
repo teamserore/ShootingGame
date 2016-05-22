@@ -1,0 +1,9 @@
+key,data,,설명
+UserSpeed,10,,플레이어 이속
+PowerPrice,50,,일회용 파워 아이템 가격캔디
+LifePrice,50,,일회용 라이프 아이템 가격캔디
+BombPrice,50,,일회용 폭탄 아이템 가격캔디
+SlotPrice,50,,슬롯 확장 시 가격캔디
+PlusPower,3,,파워 아이템 썼을 때 증가하는 power
+PlusLife,20,,라이프 아이템 썼을 때 증가하는 hp
+FeverTimeCount,3,,파워 아이템 썼을 때 파워 증가되는 시간
