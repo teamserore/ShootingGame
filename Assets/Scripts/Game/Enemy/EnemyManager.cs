@@ -3,24 +3,19 @@ using System.Collections;
 
 public class EnemyManager :MonoBehaviour {
 	EnemyPool enemyPool;
+	WaveStruct waveInfo;
 	UIManager uiManager;
 
-	EnemyScript[] enemyList;
-	int endPos = 0;
-
 	void Start() {
+		waveInfo.index = 0;
+		waveInfo.delayTime = 1;
+		waveInfo.enemyType = 0;
+		waveInfo.respawnType = 1;
     }
 
-	public GameObject CreateEnemy(GameObject respawn) {
-		int type = Random.Range(0, 2);
-		return enemyPool.NewEnemy(type, respawn);
-	}
-
-	public void GetEnemy(Item item, GameObject gameObject) {
-		uiManager.AddItemToSlot(item, endPos);
-		//enemyList[endPos] = item;
-		endPos++;
-
-		gameObject.SetActive(false);
+	void Update(){
+		if (waveInfo.enemyType == 0) {
+			//enemyPool.AddEnemy (StarEnemy);
+		}
 	}
 }

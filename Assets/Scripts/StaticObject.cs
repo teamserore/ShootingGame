@@ -6,6 +6,7 @@ public class StaticObject :MonoBehaviour {
     public static StaticObject mInstance;
 
     /** InGame에 필요한 정보 **/
+
 	//Enemy
 	public static ArrayList enemyList = new ArrayList();
 	public static ArrayList waveList = new ArrayList();
