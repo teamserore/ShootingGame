@@ -6,7 +6,18 @@ public enum ItemType{
     LIFE,
     BOMB
 }
-public class ItemPool : MonoBehaviour {
+public class ItemPool : IEnumerable, System.IDisposable {
+
+    private static ItemPool _instance;
+    public static ItemPool instance {
+        get {
+            return _instance;
+        }
+        set {
+            value = _instance;
+        }
+    }
+
     MGameObejct[,] itemObject;
     const int TYPE_COUNT = 3;
     const int ITEM_COUNT = 5;
@@ -23,10 +34,8 @@ public class ItemPool : MonoBehaviour {
     }
 
     public void AddItem (Object original) {
-        for( int i=0; i<TYPE_COUNT; i++)
-        {
-            for( int j=0; j<ITEM_COUNT; j++)
-            {
+        for( int i=0; i<TYPE_COUNT; i++) {
+            for( int j=0; j<ITEM_COUNT; j++) {
                 MGameObejct mGameObject = new MGameObejct();
                 mGameObject.active = false;
                 mGameObject.gameObject = GameObject.Instantiate(original) as GameObject;
@@ -73,23 +82,20 @@ public class ItemPool : MonoBehaviour {
         return null;
     }
 
-    public void RemoveItemList (int type, int index) {
-        if (itemObject == null || gameObject == null)
-        {
+    public void RemoveItemList (GameObject gameObject) {
+        if (itemObject == null || gameObject == null){
             return;
         }
-        
 
-        for (int i = 0; i < ITEM_COUNT; i++)
-        {
-            MGameObejct mGameObject = (MGameObejct)itemObject[type,i];
+        for (int i = 0; i < TYPE_COUNT; i++) {
+            for (int j = 0; j < ITEM_COUNT; j++) {
+                MGameObejct mGameObject = (MGameObejct)itemObject[i, j];
 
-            if (mGameObject.gameObject == gameObject)
-            {
-                mGameObject.active = false;
-                mGameObject.gameObject.SetActive(false);
-
-                break;
+                if (mGameObject.gameObject == gameObject) {
+                    mGameObject.active = false;
+                    mGameObject.gameObject.SetActive(false);
+                    break;
+                }
             }
         }
     }
@@ -113,40 +119,37 @@ public class ItemPool : MonoBehaviour {
     }
 
     public void Dispose() {
-        if (itemObject == null)
-        {
+        if (itemObject == null) {
             return;
         }
         
-        for (int i = 0; i < TYPE_COUNT; i++)
-        {
-            for (int j = 0; j < ITEM_COUNT; j++)
-            {
+        for (int i = 0; i < TYPE_COUNT; i++) {
+            for (int j = 0; j < ITEM_COUNT; j++) {
                 MGameObejct mGameObject = (MGameObejct)itemObject[i,j];
                 GameObject.Destroy(mGameObject.gameObject);
             }
-
         }
 
         itemObject = null;
     }
 
-    public IEnumerator GetEnumerator(int type)
+    public IEnumerator GetEnumerator()
     {
         if (itemObject == null)
         {
             yield break;
         }
-        
-        for (int i = 0; i < ITEM_COUNT; i++)
-        {
-            MGameObejct mGameObject = (MGameObejct)itemObject[type, i];
 
-            if (mGameObject.active)
-            {
-                yield return mGameObject.gameObject;
+        for (int i = 0; i < TYPE_COUNT; i++) {
+            for (int j = 0; j < ITEM_COUNT; j++) {
+                MGameObejct mGameObject = (MGameObejct)itemObject[i, j];
+
+                if (mGameObject.active) {
+                    yield return mGameObject.gameObject;
+                }
             }
         }
     }
+
 }
 

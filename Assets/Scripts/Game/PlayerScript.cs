@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerScript : MonoBehaviour {
     UIManager uiManager;
 	GameManager gameManager;
-    PlayerStruct playerInfo;
+    public PlayerStruct playerInfo;
 	EnemyStruct enemyInfo;
 	BulletStruct bulletInfo;
 	//BulletPool bulletPool;
@@ -125,4 +125,8 @@ public class PlayerScript : MonoBehaviour {
 			gameManager.GameOver ();
 		}
 	}
+
+    public PlayerStruct getPlayerStruct() {
+        return playerInfo;
+    }
 }

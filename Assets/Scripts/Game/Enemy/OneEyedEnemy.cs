@@ -6,16 +6,8 @@ public class OneEyedEnemy : EnemyScript {
 
 	// Use this for initialization
 	void Start () {
-		enemyInfo.index = 2;
-		enemyInfo.hp = 1;
-		enemyInfo.power = 3;
-		enemyInfo.speed = 9;
-		enemyInfo.dropCandy = 1;
-	}
-
-	void Awake(){
-		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-	}
+        EnemyIO.getInstance.GetEnemyData(EnemyType.OneEyedEnemy, out enemyInfo);
+    }
 
 	// Update is called once per frame
 	void Update (){

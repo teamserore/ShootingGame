@@ -14,7 +14,7 @@ public class EnemyIO :DataIO {
         }
     }
 
-    string _baseFileName = "enemyList.cvs";
+    string _baseFileName = "EnemyList.cvs";
     Dictionary<int, EnemyStruct> enemyList = new Dictionary<int, EnemyStruct>();
 
     public EnemyIO() {
@@ -40,8 +40,8 @@ public class EnemyIO :DataIO {
         enemyList.Add(tempData.index, tempData);
     }
 
-    public bool GetEnemyData(int index, out EnemyStruct enemyData) {
-        if (enemyList.TryGetValue(index, out enemyData) == false) {
+    public bool GetEnemyData(EnemyType index, out EnemyStruct enemyData) {
+        if (enemyList.TryGetValue((int)index, out enemyData) == false) {
             Debug.LogWarning("not existed Data: " + index.ToString());
             return false;
         }

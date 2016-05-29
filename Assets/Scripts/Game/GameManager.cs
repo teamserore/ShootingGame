@@ -9,18 +9,8 @@ public enum GameState {
 
 public class GameManager :MonoBehaviour {
 
-    private static GameManager _instance;
-    public static GameManager instance {
-        get {
-            return _instance;
-        }
-        set {
-            value = _instance;
-        }
-    }
-
     public GameState GS;
-    UIManager uiManager;
+    public UIManager uiManager;
     ItemManager itemManager;
     int candy = 0;
     int score = 0;

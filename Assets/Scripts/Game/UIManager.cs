@@ -4,20 +4,21 @@ using UnityEngine.UI;
 
 public class UIManager :MonoBehaviour {
 
+    public GameManager gameManager;
     Sprite PowerIcon;
     Sprite BombIcon;
-    Slider PlayerHpSlider;
-    GameObject[] ItemSlot = new GameObject[PlayerPrefs.GetInt("SlotCount", 3)];
-    GameObject InGameView;
-    GameObject PauseView;
-    GameObject ResultView;
-    Text tvCandy;
-    Text tvScore;
-    Text tvResultCandy;
-    Text tvResultScore;
-    Text tvBestScore;
-    GameObject PlusCandyInGame;
-    Text tvPlusCandyInGame;
+    public Slider PlayerHpSlider;
+    public GameObject[] ItemSlot = new GameObject[PlayerPrefs.GetInt("SlotCount", 3)];
+    public GameObject InGameView;
+    public GameObject PauseView;
+    public GameObject ResultView;
+    public Text tvCandy;
+    public Text tvScore;
+    public Text tvResultCandy;
+    public Text tvResultScore;
+    public Text tvBestScore;
+    public GameObject PlusCandyInGame;
+    public Text tvPlusCandyInGame;
 
     public void UpPlayerHpSlider(int hp) {
         PlayerHpSlider.value += hp / 100f;
@@ -36,13 +37,13 @@ public class UIManager :MonoBehaviour {
     }
 
     public void UseItemFromSlot(int pos) {
-        GameManager.instance.UseItem(pos);
+        gameManager.UseItem(pos);
         // 선택된 위치의 슬롯 뒤의 아이템들을 앞으로 옮겨준다.
-        for (int i = pos; i < GameManager.instance.getSlotCount(); i++) {
+        for (int i = pos; i < gameManager.getSlotCount(); i++) {
             ItemSlot[i].GetComponent<Image>().sprite = ItemSlot[i + 1].GetComponent<Image>().sprite;
         }
         // 제일 마지막 슬롯은 항상 비어있다.
-        ItemSlot[GameManager.instance.getSlotCount()].GetComponent<Image>().sprite = null;
+        ItemSlot[gameManager.getSlotCount()].GetComponent<Image>().sprite = null;
     }
 
     public void SetInGameView(bool flag) {

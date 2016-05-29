@@ -14,7 +14,7 @@ public class StatIO :DataIO {
         }
     }
 
-    string _baseFileName = "statList.cvs";
+    string _baseFileName = "StatList";
     Dictionary<int, StatStruct> statList = new Dictionary<int, StatStruct>();
 
     public StatIO() {

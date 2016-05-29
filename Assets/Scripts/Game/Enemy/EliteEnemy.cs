@@ -5,16 +5,8 @@ public class EliteEnemy : EnemyScript {
 
 	// Use this for initialization
 	void Start () {
-		enemyInfo.index = 1;
-		enemyInfo.hp = 1;
-		enemyInfo.power = 3;
-		enemyInfo.speed = 9;
-		enemyInfo.dropCandy = 1;
-	}
-
-	void Awake(){
-		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-	}
+        EnemyIO.getInstance.GetEnemyData(EnemyType.EleteEnemy, out enemyInfo);
+    }
 
 	// Update is called once per frame
 	void Update () {

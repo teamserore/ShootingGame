@@ -14,7 +14,7 @@ public class WaveIO :DataIO {
         }
     }
 
-    string _baseFileName = "waveList.cvs";
+    string _baseFileName = "WaveList.cvs";
     Dictionary<int, WaveStruct> waveList = new Dictionary<int, WaveStruct>();
 
     public WaveIO() {

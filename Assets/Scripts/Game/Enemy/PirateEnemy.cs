@@ -4,18 +4,9 @@ using System.Collections;
 public class PirateEnemy : EnemyScript {
 	private int count = 0;
 
-	// Use this for initialization
-	void Start () {
-		enemyInfo.index = 3;
-		enemyInfo.hp = 1;
-		enemyInfo.power = 3;
-		enemyInfo.speed = 9;
-		enemyInfo.dropCandy = 1;
-	}
-
-	void Awake(){
-		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-	}
+    void Start() {
+        EnemyIO.getInstance.GetEnemyData(EnemyType.PirateEnemy, out enemyInfo);
+    }
 
 	// Update is called once per frame
 	void Update (){

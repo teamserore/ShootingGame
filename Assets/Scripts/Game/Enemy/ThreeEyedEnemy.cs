@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ThreeEyedEnemy : MonoBehaviour {
-
-	// Use this for initialization
+public class ThreeEyedEnemy : EnemyScript {
+    
 	void Start () {
-	
-	}
+        EnemyIO.getInstance.GetEnemyData(EnemyType.ThreeEyedEnemy, out enemyInfo);
+    }
 	
 	// Update is called once per frame
 	void Update () {
