@@ -16,6 +16,20 @@ public class GameManager :MonoBehaviour {
     int score = 0;
     int time;  // TODO(dhUM): time에 관한 처리는 나중에 한다.
     int slotCount;
+	private static GameManager _instance;
+
+	public static GameManager instance {
+		get {
+			return _instance;
+		}
+		set {
+			value = _instance;
+		}
+	}
+	void Awake()
+	{
+		_instance = this;
+	}
 
     void Start() {
         candy = PlayerPrefs.GetInt("Candy", 500);

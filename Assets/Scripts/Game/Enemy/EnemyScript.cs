@@ -27,12 +27,19 @@ public class EnemyScript : MonoBehaviour {
 	}
 
 	protected void Die () {
+		if(coll == null)
+		{
+			coll = GetComponent<BoxCollider2D>() ;
+		}
+
 		coll.enabled = false;
 		transform.localScale = new Vector2 (transform.localScale.x - 0.01f, transform.localScale.y - 0.01f);
-        EnemyManager.instance.DieEnemy(gameObject);
-        gameManager.PlusCandy(enemyInfo.dropCandy);
-        //GameManager.instance.PlusScore(enemyInfo.score);
-    }
+		EnemyManager.instance.DieEnemy(gameObject);
+
+		GameManager.instance.PlusCandy(enemyInfo.dropCandy);
+		//gameManager.PlusCandy(enemyInfo.dropCandy);
+		//GameManager.instance.PlusScore(enemyInfo.score);
+	}
 
     protected void DownHP (int hp) {
 		enemyInfo.hp -= hp;

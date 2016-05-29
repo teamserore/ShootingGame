@@ -33,6 +33,11 @@ public class EnemyManager :MonoBehaviour {
         StartCoroutine(makeEnemy());
     }
 
+	void Awake()
+	{
+		_instance = this;
+	}
+
     public IEnumerator makeEnemy() {
         WaveStruct waveInfo;
         WaveIO.getInstance.GetWaveData(index++, out waveInfo);

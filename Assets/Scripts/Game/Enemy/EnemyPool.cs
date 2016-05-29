@@ -26,30 +26,9 @@ public class EnemyPool : MonoBehaviour {
 		for( int i=0; i<TYPE_COUNT; i++){
 			for( int j=0; j<ENEMY_COUNT; j++){
 				//GameObject go = Instantiate((GameObject)Resources.Load("Prefabs/StarBalloon") as GameObject);
-                switch (i){
-				    case 0 :
-                        go = (GameObject)Resources.Load("Prefabs/StarBalloon") as GameObject;
-                        break;
-				    case 1 :
-						go = (GameObject)Resources.Load("Prefabs/EliteBalloon") as GameObject;
-					    break;
-				    case 2 :
-						go = (GameObject)Resources.Load("Prefabs/OneEyedBalloon") as GameObject;
-					    break;
-				    case 3 :
-						go = (GameObject)Resources.Load("Prefabs/PirateBalloon") as GameObject;
-					    break;
-				    case 4 :
-						go = (GameObject)Resources.Load("Prefabs/ThreeEyedBalloon") as GameObject;
-					    break;
-				    case 5 :
-						go = (GameObject)Resources.Load("Prefabs/DevilBalloon") as GameObject;
-					    break;
-				    case 6 :
-						go = (GameObject)Resources.Load("Prefabs/KniefBalloon") as GameObject;
-					    break;
-				}
-				//go.SetActive(false);
+				go =   Instantiate(   typeEnemy[i]);
+
+				go.SetActive(false);
 				enemyObject[i,j] = go ;
 			}
 		}
