@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class UIManager :MonoBehaviour {
 
     public GameManager gameManager;
-    Sprite PowerIcon;
+	Sprite PowerIcon;
     Sprite BombIcon;
     public Slider PlayerHpSlider;
     public GameObject[] ItemSlot = new GameObject[PlayerPrefs.GetInt("SlotCount", 3)];

@@ -2,62 +2,55 @@
 using System.Collections;
 
 public class EnemyPool : MonoBehaviour {
-
-    private static EnemyPool _instance;
-    public static EnemyPool instance {
-        get {
-            return _instance;
-        }
-        set {
-            value = _instance;
-        }
-    }
-
-    MGameObject[,] enemyObject;
-	const int TYPE_COUNT = 7;
+	public GameObject[] typeEnemy = new GameObject[9];
+	public GameObject[,] enemyObject;
+	//MGameObject[,] enemyObject;
+	const int TYPE_COUNT = 9;
 	const int ENEMY_COUNT = 10;
+	GameObject go;
 
 	class MGameObject {
 		public bool active;
 		public GameObject gameObject;
 	}
-		
+
+
 	//리스트를 동적으로 생성
 	public void Create () {
 		Dispose();
-		enemyObject = new MGameObject[TYPE_COUNT,ENEMY_COUNT];
+		enemyObject = new GameObject[TYPE_COUNT,ENEMY_COUNT];
+		//enemyObject = new MGameObject[TYPE_COUNT,ENEMY_COUNT];
 	}
 
 	public void AddEnemy () {
 		for( int i=0; i<TYPE_COUNT; i++){
 			for( int j=0; j<ENEMY_COUNT; j++){
-				MGameObject mGameObject = new MGameObject();
-				mGameObject.active = false;
+				//GameObject go = Instantiate((GameObject)Resources.Load("Prefabs/StarBalloon") as GameObject);
                 switch (i){
 				    case 0 :
-                        mGameObject.gameObject = (GameObject)Resources.Load("Prefabs/StarBalloon") as GameObject;
+                        go = (GameObject)Resources.Load("Prefabs/StarBalloon") as GameObject;
                         break;
 				    case 1 :
-                        mGameObject.gameObject = (GameObject)Resources.Load("Prefabs/EliteBalloon") as GameObject;
+						go = (GameObject)Resources.Load("Prefabs/EliteBalloon") as GameObject;
 					    break;
 				    case 2 :
-                        mGameObject.gameObject = (GameObject)Resources.Load("Prefabs/OneEyedBalloon") as GameObject;
+						go = (GameObject)Resources.Load("Prefabs/OneEyedBalloon") as GameObject;
 					    break;
 				    case 3 :
-                        mGameObject.gameObject = (GameObject)Resources.Load("Prefabs/PirateBalloon") as GameObject;
+						go = (GameObject)Resources.Load("Prefabs/PirateBalloon") as GameObject;
 					    break;
 				    case 4 :
-                        mGameObject.gameObject = (GameObject)Resources.Load("Prefabs/ThreeEyedBalloon") as GameObject;
+						go = (GameObject)Resources.Load("Prefabs/ThreeEyedBalloon") as GameObject;
 					    break;
 				    case 5 :
-                        mGameObject.gameObject = (GameObject)Resources.Load("Prefabs/DevilBalloon") as GameObject;
+						go = (GameObject)Resources.Load("Prefabs/DevilBalloon") as GameObject;
 					    break;
 				    case 6 :
-                        mGameObject.gameObject = (GameObject)Resources.Load("Prefabs/KniefBalloon") as GameObject;
+						go = (GameObject)Resources.Load("Prefabs/KniefBalloon") as GameObject;
 					    break;
 				}
-                mGameObject.gameObject.SetActive(false);
-                enemyObject[i,j] = mGameObject;
+				//go.SetActive(false);
+				enemyObject[i,j] = go ;
 			}
 		}
 	}
@@ -69,9 +62,63 @@ public class EnemyPool : MonoBehaviour {
 		}
 
 		for (int i = 0; i < ENEMY_COUNT; i++){
-			MGameObject mGameObject = (MGameObject)enemyObject[type,i];
+			//MGameObject mGameObject = (MGameObject)enemyObject[type,i];
+			GameObject mGameObject = (GameObject)enemyObject[type,i];
+			Debug.Log ("respawm   "+respawn);
+			if (mGameObject.activeSelf == false){
+				Debug.Log ("find");
+				switch (respawn) {
+				// Top
+				case 0:
+					mGameObject.transform.position = new Vector2(-2f, 10f);
+					break;
+				case 1:
+					mGameObject.transform.position = new Vector2(0f, 10f);
+					break;
+				case 2:
+					mGameObject.transform.position = new Vector2(2f, 10f);
+					break;
+				case 3:
+					mGameObject.transform.position = new Vector2(4f, 10f);
+					break;
+					// Left
+				case 4:
+					mGameObject.transform.position = new Vector2(-5f, 8f);
+					break;
+				case 5:
+					mGameObject.transform.position = new Vector2(-5f, 7f);
+					break;
+				case 6:
+					mGameObject.transform.position = new Vector2(-5f, 6f);
+					break;
+				case 7:
+					mGameObject.transform.position = new Vector2(-5f, 5f);
+					break;
+					// Right
+				case 8:
+					mGameObject.transform.position = new Vector2(5f, 8f);
+					break;
+				case 9:
+					mGameObject.transform.position = new Vector2(5f, 7f);
+					break;
+				case 10:
+					mGameObject.transform.position = new Vector2(5f, 6f);
+					break;
+				case 11:
+					mGameObject.transform.position = new Vector2(5f, 5f);
+					break;
+				}
 
+				mGameObject.active = true;
+				mGameObject.SetActive(true);
+
+				return mGameObject;
+			}
+		}
+			/*
+			Debug.Log ("respawm   "+respawn);
 			if (mGameObject.active == false){
+				Debug.Log ("find");
                 switch (respawn) {
                     // Top
                     case 0:
@@ -118,8 +165,10 @@ public class EnemyPool : MonoBehaviour {
 				mGameObject.gameObject.SetActive(true);
 
 				return mGameObject.gameObject;
-			}
-		}
+			}*/
+		
+
+
 		return null;
 	}
 
@@ -130,14 +179,24 @@ public class EnemyPool : MonoBehaviour {
 
         for (int i = 0; i < TYPE_COUNT; i++) {
             for (int j = 0; j < ENEMY_COUNT; j++) {
-                MGameObject mGameObject = (MGameObject)enemyObject[i, j];
+               // MGameObject mGameObject = (MGameObject)enemyObject[i, j];
+				GameObject mGameObject = (GameObject)enemyObject[i,j];
 
+
+				if (mGameObject == gameObject) {
+					//mGameObject.active = false;
+					//mGameObject.gameObject.SetActive(false);
+					mGameObject.gameObject.SetActive(false);
+					break;
+				}
+
+				/*
                 if (mGameObject.gameObject == gameObject) {
                     mGameObject.active = false;
                     mGameObject.gameObject.SetActive(false);
 
                     break;
-                }
+                }*/
             }
         }
 	} 
@@ -148,12 +207,18 @@ public class EnemyPool : MonoBehaviour {
 		}
 
 		for (int i = 0; i < ENEMY_COUNT; i++){
-			MGameObject mGameObject = (MGameObject)enemyObject[type,i];
+//			MGameObject mGameObject = (MGameObject)enemyObject[type,i];
+			GameObject mGameObject = enemyObject[type,i];
 
 			if (mGameObject != null && mGameObject.active){
 				mGameObject.active = false;
 				mGameObject.gameObject.SetActive(false);
 			}
+			/*
+			if (mGameObject != null && mGameObject.active){
+				mGameObject.active = false;
+				mGameObject.gameObject.SetActive(false);
+			}*/
 		}
 	}
 
@@ -164,7 +229,9 @@ public class EnemyPool : MonoBehaviour {
 
 		for (int i = 0; i < TYPE_COUNT; i++) {
 			for (int j = 0; j < ENEMY_COUNT; j++) {
-				MGameObject mGameObject = (MGameObject)enemyObject[i,j];
+				//MGameObject mGameObject = (MGameObject)enemyObject[i,j];
+				GameObject mGameObject = enemyObject[i,j];
+
 				GameObject.Destroy(mGameObject.gameObject);
 			}
 
@@ -179,11 +246,16 @@ public class EnemyPool : MonoBehaviour {
 		}
 
 		for (int i = 0; i < ENEMY_COUNT; i++){
-			MGameObject mGameObject = (MGameObject)enemyObject[type, i];
+//			MGameObject mGameObject = (MGameObject)enemyObject[type, i];
+			GameObject mGameObject = enemyObject[type, i];
 
-			if (mGameObject.active){
+			if (mGameObject.activeSelf) 
+			{
 				yield return mGameObject.gameObject;
 			}
+			/*if (mGameObject.active){
+				yield return mGameObject.gameObject;
+			}*/
 		}
 	}
 }

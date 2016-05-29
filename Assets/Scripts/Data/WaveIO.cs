@@ -14,7 +14,7 @@ public class WaveIO :DataIO {
         }
     }
 
-    string _baseFileName = "WaveList.cvs";
+    string _baseFileName = "WaveList";
     Dictionary<int, WaveStruct> waveList = new Dictionary<int, WaveStruct>();
 
     public WaveIO() {
@@ -33,7 +33,7 @@ public class WaveIO :DataIO {
         int count = 0;
         WaveStruct tempData;
         tempData.index = Convert.ToInt32(inputData[count++]);
-        tempData.delayTime = Convert.ToInt32(inputData[count++]);
+        tempData.delayTime = Convert.ToDouble(inputData[count++]);
         tempData.enemyType = Convert.ToInt32(inputData[count++]);
         tempData.respawnType = Convert.ToInt32(inputData[count++]);
         tempData.hp = Convert.ToInt32(inputData[count++]);

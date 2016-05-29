@@ -1,6 +1,6 @@
 ﻿public struct WaveStruct {
     public int index;
-    public int delayTime;
+	public double delayTime;
     public int enemyType;
     public int respawnType;
     public int hp;

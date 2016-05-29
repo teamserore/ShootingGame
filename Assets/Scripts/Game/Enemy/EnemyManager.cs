@@ -22,25 +22,26 @@ public class EnemyManager :MonoBehaviour {
             value = _instance;
         }
     }
-    
+   
+	public EnemyPool enemyPool;
 	public UIManager uiManager;
     int index = 0;
 
 	void Start() {
-        EnemyPool.instance.Create();
-        EnemyPool.instance.AddEnemy();
+		enemyPool.Create();
+		enemyPool.AddEnemy();
         StartCoroutine(makeEnemy());
     }
 
     public IEnumerator makeEnemy() {
         WaveStruct waveInfo;
         WaveIO.getInstance.GetWaveData(index++, out waveInfo);
-        EnemyPool.instance.NewEnemy(waveInfo.enemyType, waveInfo.respawnType);
-        yield return new WaitForSeconds(waveInfo.delayTime);
+        enemyPool.NewEnemy(waveInfo.enemyType, waveInfo.respawnType);
+		yield return new WaitForSeconds((float)waveInfo.delayTime);
         StartCoroutine(makeEnemy());
     }
 
     public void DieEnemy(GameObject gameObject) {
-        EnemyPool.instance.RemoveEnemytList(gameObject);
+        enemyPool.RemoveEnemytList(gameObject);
     }
 }
