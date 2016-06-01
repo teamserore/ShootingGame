@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Collections.Generic; // Namespace for list type
 
-public class PlayerBulletPool : MonoBehaviour {
+public class PlayerBulletPool : MonoBehaviour
+{
 
     public GameObject playerBulletprefab; // Variable that assign bullet prefab
-    public Transform playerBulletPoint; // Spawn point of playerBullet
+    private Transform playerBulletPoint; // Spawn point of playerBullet
     public List<GameObject> playerBulletPool = new List<GameObject>();
-    public float playerBulletFrequency = 2.0f; // Frequency of playerBullet
-    private int maxPlayerBullet = 10;
+    public float playerBulletFrequency = 0.2f; // Frequency of playerBullet
+    private int maxPlayerBullet = 20;
 
     // Use this for initialization
     void Start()
@@ -30,21 +31,21 @@ public class PlayerBulletPool : MonoBehaviour {
 
     IEnumerator CreatePlayerBullet()
     {
-        //while (!isGameOver) // Repeat until game over 
-        //{
+        while (GameManager.instance.GS != GameState.End) // Repeat until game over 
+        {
             yield return new WaitForSeconds(playerBulletFrequency); // yield time to main loop
-        //    if (isGameOver) { yield break; } // Break coroutine when game over
+            if (GameManager.instance.GS == GameState.End) { yield break; } // Break coroutine when game over
 
-        //    foreach (GameObject playerBullet in playerBulletPool)
-        //    {
-        //        if (!playerBullet.activeSelf)
-        //        {
-        //            playerBullet.transform.position = playerBulletPoint.position; // Set Bullet's spawn point
-        //            playerBullet.SetActive(true);
-        //            break;
-        //        }
-        //    }
-        //}
+            foreach (GameObject playerBullet in playerBulletPool)
+            {
+                if (!playerBullet.activeSelf)
+                {
+                    playerBullet.transform.position = playerBulletPoint.position; // Set Bullet's spawn point
+                    playerBullet.SetActive(true);
+                    break;
+                }
+            }
+        }
     }
 
     // Update is called once per frame

@@ -7,7 +7,7 @@ public class PlayerScript : MonoBehaviour {
     public PlayerStruct playerInfo;
 	EnemyStruct enemyInfo;
 	BulletStruct bulletInfo;
-	//BulletPool bulletPool;
+	PlayerBulletPool bulletPool;
 	GameState GS;
 	private Vector2 MovePos;
 	private float time;

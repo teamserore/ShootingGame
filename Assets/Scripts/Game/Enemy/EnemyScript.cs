@@ -21,8 +21,8 @@ public class EnemyScript : MonoBehaviour {
 		if (coll.gameObject.tag == "Player"){
 			Die ();
 		} 
-		else if (coll.gameObject.tag == "Bullet"){
-			DownHP(player.getPlayerStruct().power);
+		else if (coll.gameObject.tag == "PlayerBullet"){
+			DownHP(player.getPlayerStruct().power); //에러
 		}
 	}
 
