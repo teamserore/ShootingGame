@@ -1,98 +1,57 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum ItemType{
-    POWER,
-    LIFE,
-    BOMB
-}
-public class ItemPool : IEnumerable, System.IDisposable {
+public class ItemPool : MonoBehaviour {
 
-    private static ItemPool _instance;
-    public static ItemPool instance {
-        get {
-            return _instance;
-        }
-        set {
-            value = _instance;
-        }
-    }
-
-    MGameObejct[,] itemObject;
+    public GameObject[] typeItem = new GameObject[3];
+    public GameObject[,] itemObject;
     const int TYPE_COUNT = 3;
-    const int ITEM_COUNT = 5;
-
-    class MGameObejct
-    {
-        public bool active;
-        public GameObject gameObject;
-    }
+    const int ITEM_COUNT = 3;
+    GameObject go;
     
     public void Create() {
         Dispose();
-        itemObject = new MGameObejct[TYPE_COUNT, ITEM_COUNT];
+        itemObject = new GameObject[TYPE_COUNT, ITEM_COUNT];
     }
 
-    public void AddItem (Object original) {
-        for( int i=0; i<TYPE_COUNT; i++) {
-            for( int j=0; j<ITEM_COUNT; j++) {
-                MGameObejct mGameObject = new MGameObejct();
-                mGameObject.active = false;
-                mGameObject.gameObject = GameObject.Instantiate(original) as GameObject;
-                mGameObject.gameObject.SetActive(false);
-                switch (i)
-                {
-                    case (int)ItemType.POWER:
-                        mGameObject.gameObject.AddComponent<ItemPower>();
-                        break;
-                    case (int)ItemType.LIFE:
-                        mGameObject.gameObject.AddComponent<ItemLife>();
-                        break;
-                    case (int)ItemType.BOMB:
-                        mGameObject.gameObject.AddComponent<ItemBomb>();
-                        break;
-                }
-                itemObject[i,j] = mGameObject;
+    public void AddItem () {
+        for (int i = 0; i < TYPE_COUNT; i++) {
+            for (int j = 0; j < ITEM_COUNT; j++) {
+                go = Instantiate(typeItem[i]);
+                go.SetActive(false);
+                itemObject[i, j] = go;
             }
         }
-        
     }
 
-    public GameObject NewItem (int type, GameObject respawn) {
-        if (itemObject == null)
-        {
+    public GameObject NewItem (ItemType itemType, GameObject respawn) {
+        int type = (int)itemType;
+        if (itemObject == null) {
             return null;
         }
 
-        for (int i = 0; i < ITEM_COUNT; i++)
-        {
-            MGameObejct mGameObject = (MGameObejct)itemObject[type,i];
+        for (int i = 0; i < ITEM_COUNT; i++) {
+            GameObject mGameObject = (GameObject)itemObject[type, i];
+            if (mGameObject.activeSelf == false) {
 
-            if (mGameObject.active == false)
-            {
                 mGameObject.gameObject.transform.position = respawn.transform.position;
-                mGameObject.gameObject.transform.rotation = respawn.transform.rotation;
+                mGameObject.SetActive(true);
 
-                mGameObject.active = true;
-                mGameObject.gameObject.SetActive(true);
-
-                return mGameObject.gameObject;
+                return mGameObject;
             }
         }
         return null;
     }
 
     public void RemoveItemList (GameObject gameObject) {
-        if (itemObject == null || gameObject == null){
+        if (itemObject == null || gameObject == null) {
             return;
         }
 
         for (int i = 0; i < TYPE_COUNT; i++) {
             for (int j = 0; j < ITEM_COUNT; j++) {
-                MGameObejct mGameObject = (MGameObejct)itemObject[i, j];
-
-                if (mGameObject.gameObject == gameObject) {
-                    mGameObject.active = false;
+                GameObject mGameObject = (GameObject)itemObject[i, j];
+                if (mGameObject == gameObject) {
                     mGameObject.gameObject.SetActive(false);
                     break;
                 }
@@ -101,17 +60,13 @@ public class ItemPool : IEnumerable, System.IDisposable {
     }
 
     public void ClearItem (int type) {
-        if (itemObject == null)
-        {
+        if (itemObject == null) {
             return;
         }
-        
-        for (int i = 0; i < ITEM_COUNT; i++)
-        {
-            MGameObejct mGameObject = (MGameObejct)itemObject[type,i];
 
-            if (mGameObject != null && mGameObject.active)
-            {
+        for (int i = 0; i < ITEM_COUNT; i++) {
+            GameObject mGameObject = itemObject[type, i];
+            if (mGameObject != null && mGameObject.active) {
                 mGameObject.active = false;
                 mGameObject.gameObject.SetActive(false);
             }
@@ -122,34 +77,28 @@ public class ItemPool : IEnumerable, System.IDisposable {
         if (itemObject == null) {
             return;
         }
-        
+
         for (int i = 0; i < TYPE_COUNT; i++) {
             for (int j = 0; j < ITEM_COUNT; j++) {
-                MGameObejct mGameObject = (MGameObejct)itemObject[i,j];
+                GameObject mGameObject = itemObject[i, j];
                 GameObject.Destroy(mGameObject.gameObject);
             }
         }
-
         itemObject = null;
     }
 
-    public IEnumerator GetEnumerator()
+    public IEnumerator GetEnumerator(int type)
     {
-        if (itemObject == null)
-        {
+        if (itemObject == null) {
             yield break;
         }
 
-        for (int i = 0; i < TYPE_COUNT; i++) {
-            for (int j = 0; j < ITEM_COUNT; j++) {
-                MGameObejct mGameObject = (MGameObejct)itemObject[i, j];
-
-                if (mGameObject.active) {
-                    yield return mGameObject.gameObject;
-                }
+        for (int i = 0; i < ITEM_COUNT; i++) {
+            GameObject mGameObject = itemObject[type, i];
+            if (mGameObject.activeSelf) {
+                yield return mGameObject.gameObject;
             }
         }
     }
-
 }
 

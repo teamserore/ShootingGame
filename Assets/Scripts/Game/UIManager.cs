@@ -3,17 +3,20 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class UIManager :MonoBehaviour {
-
-    public GameManager gameManager;
+   
+    // InGameView
 	Sprite PowerIcon;
     Sprite BombIcon;
-    public Slider PlayerHpSlider;
-    public GameObject[] ItemSlot = new GameObject[PlayerPrefs.GetInt("SlotCount", 3)];
+    public GameObject playerHP;
     public GameObject InGameView;
     public GameObject PauseView;
     public GameObject ResultView;
     public Text tvCandy;
     public Text tvScore;
+    public Text itemPowerCount;
+    public Text itemBombCount;
+
+    // Result View
     public Text tvResultCandy;
     public Text tvResultScore;
     public Text tvBestScore;
@@ -21,29 +24,28 @@ public class UIManager :MonoBehaviour {
     public Text tvPlusCandyInGame;
 
     public void UpPlayerHpSlider(int hp) {
-        PlayerHpSlider.value += hp / 100f;
+        playerHP.transform.localScale += new Vector3(hp / 100f, 0, 0);
     }
 
     public void DownPlayerHpSlider(int hp) {
-        PlayerHpSlider.value += hp / 100f;
+        playerHP.transform.localScale -= new Vector3(hp / 100f, 0, 0);
     }
 
-    public void AddItemToSlot(Item item, int pos) {
-        if (item.GetType() == typeof(ItemPower)) {
-            ItemSlot[pos].GetComponent<Image>().sprite = PowerIcon;
-            return;
+    public void SetItemCountText(ItemType itemType, int count) {
+        switch (itemType) {
+            case ItemType.POWER:
+                itemPowerCount.text = count + "";
+                break;
+            case ItemType.BOMB:
+                itemBombCount.text = count + "";
+                break;
+            default:
+                break;
         }
-        ItemSlot[pos].GetComponent<Image>().sprite = BombIcon;
     }
 
-    public void UseItemFromSlot(int pos) {
-        gameManager.UseItem(pos);
-        // 선택된 위치의 슬롯 뒤의 아이템들을 앞으로 옮겨준다.
-        for (int i = pos; i < gameManager.getSlotCount(); i++) {
-            ItemSlot[i].GetComponent<Image>().sprite = ItemSlot[i + 1].GetComponent<Image>().sprite;
-        }
-        // 제일 마지막 슬롯은 항상 비어있다.
-        ItemSlot[gameManager.getSlotCount()].GetComponent<Image>().sprite = null;
+    public void UseItem(int itemType) {
+       GameManager.instance.UseItem((ItemType)itemType);
     }
 
     public void SetInGameView(bool flag) {

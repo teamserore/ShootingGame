@@ -1,22 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum ItemType {
+    POWER,
+    LIFE,
+    BOMB
+}
+
 public class Item :MonoBehaviour {
-    protected PlayerScript player;
-    protected UIManager uiManager;
-    ItemManager itemManager;
-
-    public void Use() {
-
-    }
+    public ItemType itemType;
 
     void OnTriggerEnter2D(Collider2D coll) {
         if (coll.gameObject.tag == "Player") {
-            itemManager.GetItem(transform.gameObject.GetComponent<Item>(), this.gameObject);
+            Item item = transform.gameObject.GetComponent<Item>();
+            ItemManager.instance.GetItem(item.itemType);
         }
     }
 
     void Update() {
-        transform.Translate(Vector2.down * Time.deltaTime * 2f);
+        transform.Translate(Vector2.down * Time.deltaTime * 1f);
     }
 }

@@ -11,11 +11,10 @@ public class GameManager :MonoBehaviour {
 
     public GameState GS;
     public UIManager uiManager;
-    ItemManager itemManager;
     int candy = 0;
     int score = 0;
     int time;  // TODO(dhUM): time에 관한 처리는 나중에 한다.
-    int slotCount;
+
 	private static GameManager _instance;
 
 	public static GameManager instance {
@@ -33,7 +32,6 @@ public class GameManager :MonoBehaviour {
 
     void Start() {
         candy = PlayerPrefs.GetInt("Candy", 500);
-        slotCount = PlayerPrefs.GetInt("SlotCount", 3);
         uiManager.SetTextCandy(candy);
         uiManager.SetTextScore(score);
         StartCoroutine(PlusTime());
@@ -89,8 +87,9 @@ public class GameManager :MonoBehaviour {
         uiManager.SetPauseView(false);
     }
 
-    public void PlusScore(int plusScore) {
-        score += plusScore;
+    public void PlusScore() {
+        // TODO(dhUM): 시간대별로 점수 더하기.
+        score += 100;
         uiManager.SetTextScore(score);
     }
 
@@ -110,11 +109,7 @@ public class GameManager :MonoBehaviour {
         //TODO(dhUM): time 관련 UI 셋팅이 필요
     }
 
-    public void UseItem(int pos) {
-        itemManager.UseItem(pos);
-    }
-
-    public int getSlotCount() {
-        return slotCount;
+    public void UseItem(ItemType itemType) {
+        ItemManager.instance.UseItem(itemType);
     }
 }

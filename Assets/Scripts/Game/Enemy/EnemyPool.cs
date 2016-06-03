@@ -2,50 +2,38 @@
 using System.Collections;
 
 public class EnemyPool : MonoBehaviour {
+
 	public GameObject[] typeEnemy = new GameObject[9];
 	public GameObject[,] enemyObject;
-	//MGameObject[,] enemyObject;
 	const int TYPE_COUNT = 9;
 	const int ENEMY_COUNT = 10;
 	GameObject go;
-
-	class MGameObject {
-		public bool active;
-		public GameObject gameObject;
-	}
-
 
 	//리스트를 동적으로 생성
 	public void Create () {
 		Dispose();
 		enemyObject = new GameObject[TYPE_COUNT,ENEMY_COUNT];
-		//enemyObject = new MGameObject[TYPE_COUNT,ENEMY_COUNT];
 	}
 
 	public void AddEnemy () {
 		for( int i=0; i<TYPE_COUNT; i++){
 			for( int j=0; j<ENEMY_COUNT; j++){
-				//GameObject go = Instantiate((GameObject)Resources.Load("Prefabs/StarBalloon") as GameObject);
-				go =   Instantiate(   typeEnemy[i]);
-
+				go = Instantiate(typeEnemy[i]);
 				go.SetActive(false);
-				enemyObject[i,j] = go ;
+				enemyObject[i,j] = go;
 			}
 		}
 	}
 
 	//위의 함수를 이용하여 초기화된 객체들 중 특정 객체의 위치를 지정하고 활성화
-	public GameObject NewEnemy(int type, int respawn){
+	public GameObject NewEnemy(int type, int respawn, int itemType){
 		if (enemyObject == null){
 			return null;
 		}
 
 		for (int i = 0; i < ENEMY_COUNT; i++){
-			//MGameObject mGameObject = (MGameObject)enemyObject[type,i];
 			GameObject mGameObject = (GameObject)enemyObject[type,i];
-			Debug.Log ("respawm   "+respawn);
 			if (mGameObject.activeSelf == false){
-				Debug.Log ("find");
 				switch (respawn) {
 				// Top
 				case 0:
@@ -88,66 +76,28 @@ public class EnemyPool : MonoBehaviour {
 					break;
 				}
 
-				mGameObject.active = true;
+                switch (itemType) {
+                    case 0:
+                        mGameObject.GetComponent<EnemyScript>().itemType = ItemType.POWER;
+                        mGameObject.GetComponent<EnemyScript>().hasItem = true;
+                        break;
+                    case 1:
+                        mGameObject.GetComponent<EnemyScript>().itemType = ItemType.LIFE;
+                        mGameObject.GetComponent<EnemyScript>().hasItem = true;
+                        break;
+                    case 2:
+                        mGameObject.GetComponent<EnemyScript>().itemType = ItemType.BOMB;
+                        mGameObject.GetComponent<EnemyScript>().hasItem = true;
+                        break;
+                    default:
+                        mGameObject.GetComponent<EnemyScript>().hasItem = false;
+                        break;
+                }
 				mGameObject.SetActive(true);
 
 				return mGameObject;
 			}
 		}
-			/*
-			Debug.Log ("respawm   "+respawn);
-			if (mGameObject.active == false){
-				Debug.Log ("find");
-                switch (respawn) {
-                    // Top
-                    case 0:
-                        mGameObject.gameObject.transform.position = new Vector2(-2f, 10f);
-                        break;
-                    case 1:
-                        mGameObject.gameObject.transform.position = new Vector2(0f, 10f);
-                        break;
-                    case 2:
-                        mGameObject.gameObject.transform.position = new Vector2(2f, 10f);
-                        break;
-                    case 3:
-                        mGameObject.gameObject.transform.position = new Vector2(4f, 10f);
-                        break;
-                    // Left
-                    case 4:
-                        mGameObject.gameObject.transform.position = new Vector2(-5f, 8f);
-                        break;
-                    case 5:
-                        mGameObject.gameObject.transform.position = new Vector2(-5f, 7f);
-                        break;
-                    case 6:
-                        mGameObject.gameObject.transform.position = new Vector2(-5f, 6f);
-                        break;
-                    case 7:
-                        mGameObject.gameObject.transform.position = new Vector2(-5f, 5f);
-                        break;
-                    // Right
-                    case 8:
-                        mGameObject.gameObject.transform.position = new Vector2(5f, 8f);
-                        break;
-                    case 9:
-                        mGameObject.gameObject.transform.position = new Vector2(5f, 7f);
-                        break;
-                    case 10:
-                        mGameObject.gameObject.transform.position = new Vector2(5f, 6f);
-                        break;
-                    case 11:
-                        mGameObject.gameObject.transform.position = new Vector2(5f, 5f);
-                        break;
-                }
-                
-				mGameObject.active = true;
-				mGameObject.gameObject.SetActive(true);
-
-				return mGameObject.gameObject;
-			}*/
-		
-
-
 		return null;
 	}
 
@@ -158,24 +108,11 @@ public class EnemyPool : MonoBehaviour {
 
         for (int i = 0; i < TYPE_COUNT; i++) {
             for (int j = 0; j < ENEMY_COUNT; j++) {
-               // MGameObject mGameObject = (MGameObject)enemyObject[i, j];
 				GameObject mGameObject = (GameObject)enemyObject[i,j];
-
-
 				if (mGameObject == gameObject) {
-					//mGameObject.active = false;
-					//mGameObject.gameObject.SetActive(false);
-					mGameObject.gameObject.SetActive(false);
+					mGameObject.SetActive(false);
 					break;
 				}
-
-				/*
-                if (mGameObject.gameObject == gameObject) {
-                    mGameObject.active = false;
-                    mGameObject.gameObject.SetActive(false);
-
-                    break;
-                }*/
             }
         }
 	} 
@@ -186,18 +123,10 @@ public class EnemyPool : MonoBehaviour {
 		}
 
 		for (int i = 0; i < ENEMY_COUNT; i++){
-//			MGameObject mGameObject = (MGameObject)enemyObject[type,i];
 			GameObject mGameObject = enemyObject[type,i];
-
-			if (mGameObject != null && mGameObject.active){
-				mGameObject.active = false;
-				mGameObject.gameObject.SetActive(false);
+			if (mGameObject != null){
+				mGameObject.SetActive(false);
 			}
-			/*
-			if (mGameObject != null && mGameObject.active){
-				mGameObject.active = false;
-				mGameObject.gameObject.SetActive(false);
-			}*/
 		}
 	}
 
@@ -208,14 +137,10 @@ public class EnemyPool : MonoBehaviour {
 
 		for (int i = 0; i < TYPE_COUNT; i++) {
 			for (int j = 0; j < ENEMY_COUNT; j++) {
-				//MGameObject mGameObject = (MGameObject)enemyObject[i,j];
 				GameObject mGameObject = enemyObject[i,j];
-
 				GameObject.Destroy(mGameObject.gameObject);
 			}
-
 		}
-
 		enemyObject = null;
 	}
 
@@ -225,16 +150,11 @@ public class EnemyPool : MonoBehaviour {
 		}
 
 		for (int i = 0; i < ENEMY_COUNT; i++){
-//			MGameObject mGameObject = (MGameObject)enemyObject[type, i];
 			GameObject mGameObject = enemyObject[type, i];
-
 			if (mGameObject.activeSelf) 
 			{
 				yield return mGameObject.gameObject;
 			}
-			/*if (mGameObject.active){
-				yield return mGameObject.gameObject;
-			}*/
 		}
 	}
 }

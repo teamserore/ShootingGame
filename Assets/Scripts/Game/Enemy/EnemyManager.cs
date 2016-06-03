@@ -30,7 +30,7 @@ public class EnemyManager :MonoBehaviour {
 	void Start() {
 		enemyPool.Create();
 		enemyPool.AddEnemy();
-        StartCoroutine(makeEnemy());
+        StartCoroutine(MakeEnemy());
     }
 
 	void Awake()
@@ -38,12 +38,12 @@ public class EnemyManager :MonoBehaviour {
 		_instance = this;
 	}
 
-    public IEnumerator makeEnemy() {
+    public IEnumerator MakeEnemy() {
         WaveStruct waveInfo;
         WaveIO.getInstance.GetWaveData(index++, out waveInfo);
-        enemyPool.NewEnemy(waveInfo.enemyType, waveInfo.respawnType);
+        enemyPool.NewEnemy(waveInfo.enemyType, waveInfo.respawnType, waveInfo.itemType);
 		yield return new WaitForSeconds((float)waveInfo.delayTime);
-        StartCoroutine(makeEnemy());
+        StartCoroutine(MakeEnemy());
     }
 
     public void DieEnemy(GameObject gameObject) {

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public enum PopupKind {
     POWER,
     LIFE,
-    SLOT
 }
 
 public class ReadyManager :MonoBehaviour {
@@ -16,16 +15,12 @@ public class ReadyManager :MonoBehaviour {
     int candy;
     int powerLevel;
     int lifeLevel;
-    int slotCount;
 
     // 1회용 아이템 가격
-    int lifePrice;
     int powerPrice;
     int bombPrice;
-    int slotPrice;
 
     public bool isGetPower = false;
-    public bool isGetLife = false;
     public bool isGetBomb = false;
 
     PopupKind popupKind;
@@ -34,15 +29,11 @@ public class ReadyManager :MonoBehaviour {
         candy = PlayerPrefs.GetInt("Candy", 500);
         powerLevel = PlayerPrefs.GetInt("PowerLevel", 1);
         lifeLevel = PlayerPrefs.GetInt("LifeLevel", 1);
-        slotCount = PlayerPrefs.GetInt("SlotCount", 3);
-        uiManager.SetPlayerName(PlayerPrefs.GetString("UserName", "새로이"));
         uiManager.SetPalyerCandy(candy);
-        uiManager.SetSlot(slotCount);
 
         DefSettingIO.getInstance.GetData("PowerPrice", out powerPrice);
-        DefSettingIO.getInstance.GetData("LifePrice", out lifePrice);
         DefSettingIO.getInstance.GetData("BombPrice", out bombPrice);
-        DefSettingIO.getInstance.GetData("SlotPrice", out slotPrice);
+
     }
 
     void Update() {
@@ -57,7 +48,7 @@ public class ReadyManager :MonoBehaviour {
     }
 
     // 공격력 레벨업 시도
-    public void addPower() {
+    public void levelUpPower() {
         StatStruct tempData;
         StatIO.getInstance.GetStatData(powerLevel + 1, out tempData);
 
@@ -66,18 +57,12 @@ public class ReadyManager :MonoBehaviour {
     }
 
     // 생명력 레벨업 시도
-    public void addLife() {
+    public void levelUpLife() {
         StatStruct tempData;
         StatIO.getInstance.GetStatData(lifeLevel + 1, out tempData);
 
         popupKind = PopupKind.LIFE;
         uiManager.ShowPopup(tempData.candyForLife);
-    }
-
-    // 슬롯을 확장 시도
-    public void AppendSlot() {
-        popupKind = PopupKind.SLOT;
-        uiManager.ShowPopup(slotPrice);
     }
 
     // 확인
@@ -88,7 +73,7 @@ public class ReadyManager :MonoBehaviour {
                 StatIO.getInstance.GetStatData(powerLevel + 1, out tempData1);
                 if (minusCandy(tempData1.candyForPower)) {
                     powerLevel++;
-                    PlayerPrefs.SetInt("LifeLevel", powerLevel);
+                    PlayerPrefs.SetInt("PowerLevel", powerLevel);
                 }
                 break;
             case PopupKind.LIFE:
@@ -99,69 +84,35 @@ public class ReadyManager :MonoBehaviour {
                     PlayerPrefs.SetInt("LifeLevel", lifeLevel);
                 }
                 break;
-            case PopupKind.SLOT:
-                if (minusCandy(slotPrice)) {
-                    slotCount++;
-                    uiManager.SetSlot(slotCount);
-                    PlayerPrefs.SetInt("SlotCount", slotCount);
-                }
-                break;
 
         }
-        uiManager.CancelPopup();
+        uiManager.dismissPopup();
     }
 
     public void Cancel() {
-        uiManager.CancelPopup();
+        uiManager.dismissPopup();
     }
 
-    // 일회용 아이템(파워,생명,폭탄) 구매 
+    // 일회용 아이템(파워,폭탄) 구매 
     public void BuyItem(int type) {
         switch ((ItemType)type) {
             case ItemType.POWER:
                 if (minusCandy(powerPrice)) {
-                    uiManager.SetActiveItem(ItemType.POWER, false);
                     isGetPower = true;
-                }
-                break;
-            case ItemType.LIFE:
-                if (minusCandy(lifePrice)) {
-                    uiManager.SetActiveItem(ItemType.LIFE, false);
-                    isGetLife = true;
                 }
                 break;
             case ItemType.BOMB:
                 if (minusCandy(bombPrice)) {
-                    uiManager.SetActiveItem(ItemType.BOMB, false);
                     isGetBomb = true;
                 }
                 break;
         }
     }
-    // 일회용 아이템(파워,생명,폭탄) 구매 취소
-    public void CancelItem(int type) {
-        switch ((ItemType)type) {
-            case ItemType.POWER:
-                plusCandy(powerPrice);
-                uiManager.SetActiveItem(ItemType.POWER, true);
-                isGetPower = false;
-                break;
-            case ItemType.LIFE:
-                plusCandy(lifePrice);
-                uiManager.SetActiveItem(ItemType.LIFE, true);
-                isGetLife = false;
-                break;
-            case ItemType.BOMB:
-                plusCandy(bombPrice);
-                uiManager.SetActiveItem(ItemType.BOMB, true);
-                isGetBomb = false;
-                break;
-        }
-    }
+
 
     private void plusCandy(int candy) {
         this.candy += candy;
-        //PlayerPrefs.SetInt("Candy", this.candy);
+        PlayerPrefs.SetInt("Candy", this.candy);
         uiManager.SetPalyerCandy(candy);
     }
 
@@ -170,7 +121,7 @@ public class ReadyManager :MonoBehaviour {
             return false;
         }
         this.candy -= candy;
-        //PlayerPrefs.SetInt("Candy", this.candy);
+        PlayerPrefs.SetInt("Candy", this.candy);
         uiManager.SetPalyerCandy(candy);
         return true;
     }
