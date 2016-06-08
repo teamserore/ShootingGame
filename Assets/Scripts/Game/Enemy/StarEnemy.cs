@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class StarEnemy : EnemyScript {
-    
 	void Start () {
         EnemyIO.getInstance.GetEnemyData(EnemyType.StarEnemy, out enemyInfo);
 	}
