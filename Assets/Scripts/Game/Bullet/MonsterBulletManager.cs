@@ -33,10 +33,18 @@ public class MonsterBulletManager : MonoBehaviour {
 		_instance = this;
 	}
 		
-	public GameObject CreateMBullet(MBulletType mbullettype, GameObject respawn) {
-		return mbulletPool.NewMBullet(mbullettype, respawn);
+	public GameObject CreateAimedBullet(GameObject respawn) {
+		return mbulletPool.NewMBullet(MBulletType.AIMED, respawn);
 	}
-		
+
+	public GameObject CreateDirectionBullet(GameObject respawn) {
+		return mbulletPool.NewMBullet(MBulletType.DIRECTION, respawn);
+	}
+
+	public GameObject CreateRightAngleBullet(GameObject respawn) {
+		return mbulletPool.NewMBullet(MBulletType.RIGHTANGLE, respawn);
+	}
+
 	public void DieMBullet(GameObject gameObject) {
 		mbulletPool.RemoveMBulletList(gameObject);
 	}
