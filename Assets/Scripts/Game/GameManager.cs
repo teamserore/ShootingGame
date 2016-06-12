@@ -34,6 +34,7 @@ public class GameManager :MonoBehaviour {
         candy = PlayerPrefs.GetInt("Candy", 500);
         uiManager.SetTextCandy(candy);
         uiManager.SetTextScore(score);
+        BgmManager.instance.PlayGameBgm(1);
         StartCoroutine(PlusTime());
     }
 
@@ -70,22 +71,26 @@ public class GameManager :MonoBehaviour {
     }
 
     public void Replay() {
+        SoundEffectManager.instance.PlayButtonClickSound();
         candy = PlayerPrefs.GetInt("Candy", 0);
         score = 0;
         MSceneManager.GameGo();
     }
 
     public void MainGo() {
+        SoundEffectManager.instance.PlayButtonClickSound();
         MSceneManager.MainGo();
     }
 
     public void Pause() {
+        SoundEffectManager.instance.PlayButtonClickSound();
         Time.timeScale = 0;
         GS = GameState.Pause;
         uiManager.SetPauseView(true);
     }
 
     public void UnPause() {
+        SoundEffectManager.instance.PlayButtonClickSound();
         Time.timeScale = 1;
         GS = GameState.Play;
         uiManager.SetPauseView(false);

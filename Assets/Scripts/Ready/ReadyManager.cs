@@ -43,6 +43,7 @@ public class ReadyManager :MonoBehaviour {
     }
 
     public void GameGo() {
+        SoundEffectManager.instance.PlayButtonClickSound();
         DontDestroyOnLoad(this.gameObject);
         MSceneManager.GameGo();
     }
@@ -67,6 +68,7 @@ public class ReadyManager :MonoBehaviour {
 
     // 확인
     public void OK() {
+        SoundEffectManager.instance.PlayButtonClickSound();
         switch (popupKind) {
             case PopupKind.POWER:
                 StatStruct tempData1;
@@ -90,11 +92,13 @@ public class ReadyManager :MonoBehaviour {
     }
 
     public void Cancel() {
+        SoundEffectManager.instance.PlayButtonClickSound();
         uiManager.dismissPopup();
     }
 
     // 일회용 아이템(파워,폭탄) 구매 
     public void BuyItem(int type) {
+        SoundEffectManager.instance.PlayButtonClickSound();
         switch ((ItemType)type) {
             case ItemType.POWER:
                 if (minusCandy(powerPrice)) {
