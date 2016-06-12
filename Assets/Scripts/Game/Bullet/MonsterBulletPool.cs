@@ -33,7 +33,7 @@ public class MonsterBulletPool : MonoBehaviour {
 		for (int i = 0; i < MBULLET_COUNT; i++) {
 			GameObject mGameObject = (GameObject)mbulletObject[type, i];
 			if (mGameObject.activeSelf == false) {
-				mGameObject.gameObject.transform.position = respawn.transform.position;
+				mGameObject.transform.position = respawn.transform.position;
 				mGameObject.SetActive(true);
 
 				return mGameObject;

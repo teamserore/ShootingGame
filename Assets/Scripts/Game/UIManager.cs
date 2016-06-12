@@ -27,12 +27,13 @@ public class UIManager :MonoBehaviour {
     public Text tvPlusCandyInGame;
 
     public void Start() {
-        soundSlider.onValueChanged.AddListener(delegate {
+       /* soundSlider.onValueChanged.AddListener(delegate {
             SoundValueChaned();
         });
         bgmSlider.onValueChanged.AddListener(delegate {
             BgmValueChaned();
         });
+        */
     }
 
     public void SoundValueChaned() {
