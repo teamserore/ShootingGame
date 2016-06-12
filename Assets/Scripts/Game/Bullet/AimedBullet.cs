@@ -1,17 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AimedBullet : MonoBehaviour {
-	float speed = 8f;
-	public PlayerScript player;
-	protected EnemyScript enemyScript;
-	protected EnemyStruct enemyInfo;
+public class AimedBullet : MonsterBulletScript {
 	Vector2 relativePos;
 	float angle;
 	float bulletAngle;
 	int count;
-
-	public GameManager gameManager;
 
 	// Use this for initialization
 	void Start () {
@@ -29,7 +23,8 @@ public class AimedBullet : MonoBehaviour {
 				bulletAngle = Random.Range (80, 100); // random angle between 80 ~ 100 (20) 
 			} else if (count > 10) {
 				transform.localRotation = Quaternion.Euler (0, 0, angle - bulletAngle);
-				transform.Translate (transform.up * speed * Time.deltaTime, Space.World);
+				transform.Translate (transform.up * 5 * Time.deltaTime, Space.World);
+				//speed fix neeeed
 			}
 		}
 	}

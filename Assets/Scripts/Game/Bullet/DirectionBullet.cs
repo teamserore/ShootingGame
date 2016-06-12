@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DirectionBullet : MonoBehaviour {
+public class DirectionBullet : MonsterBulletScript {
 
 	// Use this for initialization
 	void Start () {

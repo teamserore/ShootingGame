@@ -1,14 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum MBulletType {
-	AIMED,
-	DIRECTION,
-	RIGHTANGLE
-}
-
 public class MonsterBulletScript :MonoBehaviour {
 	protected PlayerScript player;
+	protected EnemyStruct enemyInfo;
 	protected GameManager gameManager;
 	protected BoxCollider2D coll = null; // BoxCollider2D
 
