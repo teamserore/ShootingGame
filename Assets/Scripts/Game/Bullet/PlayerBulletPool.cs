@@ -5,19 +5,34 @@ using System.Collections.Generic; // Namespace for list type
 public class PlayerBulletPool : MonoBehaviour
 {
 
-    public GameObject playerBulletprefab; // Variable that assign bullet prefab
+    public List<GameObject> playerBulletprefab = new List<GameObject>(); // Variable that assign bullet prefab
     private Transform playerBulletPoint; // Spawn point of playerBullet
     public List<GameObject> playerBulletPool = new List<GameObject>();
     public float playerBulletFrequency = 0.2f; // Frequency of playerBullet
     private int maxPlayerBullet = 20;
 
+
     // Use this for initialization
     void Start()
     {
         playerBulletPoint = GameObject.Find("FirePos").GetComponentInChildren<Transform>();
+
+        playerBulletprefab[0] = Resources.Load("Prefabs/PlayerBullet0") as GameObject;
+        playerBulletprefab[1] = Resources.Load("Prefabs/PlayerBullet1") as GameObject;
+        playerBulletprefab[2] = Resources.Load("Prefabs/PlayerBullet2") as GameObject;
+        playerBulletprefab[3] = Resources.Load("Prefabs/PlayerBullet3") as GameObject;
+        playerBulletprefab[4] = Resources.Load("Prefabs/PlayerBullet4") as GameObject;
+        playerBulletprefab[5] = Resources.Load("Prefabs/PlayerBullet5") as GameObject;
+        playerBulletprefab[6] = Resources.Load("Prefabs/PlayerBullet6") as GameObject;
+        playerBulletprefab[7] = Resources.Load("Prefabs/PlayerBullet7") as GameObject;
+        playerBulletprefab[8] = Resources.Load("Prefabs/PlayerBullet8") as GameObject;
+        playerBulletprefab[9] = Resources.Load("Prefabs/PlayerBullet9") as GameObject;
+        playerBulletprefab[10] = Resources.Load("Prefabs/PlayerBullet10") as GameObject;
+
+
         for (int i = 0; i < maxPlayerBullet; i++)
         {
-            GameObject playerBullet = (GameObject)Instantiate(playerBulletprefab); // Create bullet prefab
+            GameObject playerBullet = (GameObject)Instantiate(playerBulletprefab[0]); // Create bullet prefab
             playerBullet.name = "PlayerBullet_" + i.ToString(); // Set name for created bullet
             playerBullet.SetActive(false); // Make created bullet Inactive
             playerBulletPool.Add(playerBullet); // Add created bullet to Object pool 
@@ -27,6 +42,8 @@ public class PlayerBulletPool : MonoBehaviour
         {
             StartCoroutine(this.CreatePlayerBullet()); // Object Pooling
         }
+
+        Debug.Log("asda");
     }
 
     IEnumerator CreatePlayerBullet()
