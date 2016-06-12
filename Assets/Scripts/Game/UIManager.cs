@@ -4,19 +4,13 @@ using UnityEngine.UI;
 
 public class UIManager :MonoBehaviour {
 
+    public TobBarManager topBarManager;
     // InGameView
     public GameObject InGameView;
     public Slider hpSlider;
-    public Text tvCandy;
     public Text tvScore;
     public Text itemPowerCount;
     public Text itemBombCount;
-
-    // PauseView, SettingView
-    public GameObject PauseView;
-    public GameObject SettingView;
-    public Slider soundSlider;
-    public Slider bgmSlider;
 
     // Result View
     public GameObject ResultView;
@@ -26,21 +20,8 @@ public class UIManager :MonoBehaviour {
     public GameObject PlusCandyInGame;
     public Text tvPlusCandyInGame;
 
-    public void Start() {
-        soundSlider.onValueChanged.AddListener(delegate {
-            SoundValueChaned();
-        });
-        bgmSlider.onValueChanged.AddListener(delegate {
-            BgmValueChaned();
-        });
-    }
-
-    public void SoundValueChaned() {
-        Debug.Log("a");
-    }
-
-    public void BgmValueChaned() {
-        Debug.Log("b");
+    void Start() {
+        tvScore.text = PlayerPrefs.GetInt("BestScore", 3) + "";
     }
 
     public void UpPlayerHpSlider(int hp) {
@@ -65,7 +46,7 @@ public class UIManager :MonoBehaviour {
     }
 
     public void UseItem(int itemType) {
-       GameManager.instance.UseItem((ItemType)itemType);
+        GameManager.instance.UseItem((ItemType)itemType);
     }
 
     public void SetInGameView(bool flag) {
@@ -74,10 +55,6 @@ public class UIManager :MonoBehaviour {
 
     public void SetResultView(bool flag) {
         ResultView.SetActive(flag);
-    }
-
-    public void SetPauseView(bool flag) {
-        PauseView.SetActive(flag);
     }
 
     public void SetPlusCandy(bool flag) {
@@ -89,7 +66,7 @@ public class UIManager :MonoBehaviour {
     }
 
     public void SetTextCandy(int candy) {
-        tvCandy.text = candy + "";
+        topBarManager.SetTextCandy(candy);
     }
 
     public void SetTextScore(int score) {
@@ -106,13 +83,5 @@ public class UIManager :MonoBehaviour {
 
     public void SetTextBestScore(int score) {
         tvBestScore.text = score + "";
-    }
-
-    public void SetPasueView(bool flag) {
-        PauseView.SetActive(flag);
-    }
-
-    public void SetSettingView(bool flag) {
-        SettingView.SetActive(flag);
     }
 }

@@ -49,4 +49,9 @@ public class BgmManager : MonoBehaviour {
         }
         audio.Play();
     }
+
+    public void BgmValueChanged(float value) {
+        audio.volume = value;
+        Debug.Log("valueChanged: "+ value);
+    }
 }

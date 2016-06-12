@@ -9,6 +9,7 @@ public enum PopupKind {
 
 public class ReadyManager :MonoBehaviour {
 
+    public TobBarManager topBarManager;
     public ReadyUIManager uiManager;
 
     // 사용자의 현재 레벨과 슬롯 수
@@ -29,7 +30,6 @@ public class ReadyManager :MonoBehaviour {
         candy = PlayerPrefs.GetInt("Candy", 500);
         powerLevel = PlayerPrefs.GetInt("PowerLevel", 1);
         lifeLevel = PlayerPrefs.GetInt("LifeLevel", 1);
-        uiManager.SetPalyerCandy(candy);
 
         DefSettingIO.getInstance.GetData("PowerPrice", out powerPrice);
         DefSettingIO.getInstance.GetData("BombPrice", out bombPrice);
@@ -117,7 +117,7 @@ public class ReadyManager :MonoBehaviour {
     private void plusCandy(int candy) {
         this.candy += candy;
         PlayerPrefs.SetInt("Candy", this.candy);
-        uiManager.SetPalyerCandy(candy);
+        topBarManager.SetTextCandy(candy);
     }
 
     private bool minusCandy(int candy) {
@@ -126,7 +126,7 @@ public class ReadyManager :MonoBehaviour {
         }
         this.candy -= candy;
         PlayerPrefs.SetInt("Candy", this.candy);
-        uiManager.SetPalyerCandy(candy);
+        topBarManager.SetTextCandy(candy);
         return true;
     }
 }

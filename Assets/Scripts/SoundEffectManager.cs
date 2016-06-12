@@ -38,4 +38,8 @@ public class SoundEffectManager : MonoBehaviour {
         audio.clip = playerShot;
         audio.Play();
     }
+
+    public void SoundEffectValueChanged(float value) {
+        audio.volume = value;
+    }
 }

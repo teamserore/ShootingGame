@@ -3,9 +3,6 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class ReadyUIManager : MonoBehaviour {
-    // TODO(dhUM): 캔디,유저네임 등 상단바에 위치한 UI는 따로 클래스 만들어서 빼기.
-    public Text tvCandy;
-
     public GameObject Popup;
     public Text PopupText;
     public GameObject levelLife;
@@ -20,9 +17,5 @@ public class ReadyUIManager : MonoBehaviour {
 
     public void dismissPopup() {
         Popup.SetActive(false);
-    }
-
-    public void SetPalyerCandy(int candy) {
-        tvCandy.text = candy + "";
     }
 }
