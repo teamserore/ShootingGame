@@ -14,6 +14,7 @@ public class Item :MonoBehaviour {
         if (coll.gameObject.tag == "Player") {
             Item item = transform.gameObject.GetComponent<Item>();
             ItemManager.instance.GetItem(item.itemType);
+            ItemManager.instance.RemoveItem(gameObject);
         }
     }
 

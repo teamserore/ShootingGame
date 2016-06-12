@@ -56,12 +56,14 @@ public class ItemManager :MonoBehaviour {
             default:
                 break;
         }
-        itemPool.RemoveItemList(gameObject);
     }
 
     public void UseItem(ItemType itemType) {
         switch (itemType) {
             case ItemType.POWER:
+                if (powerCount == 0) {
+                    break;
+                }
                 powerCount--;
                 uiManager.SetItemCountText(itemType, powerCount);
                 UsePower();
@@ -70,6 +72,9 @@ public class ItemManager :MonoBehaviour {
                 UseLife();
                 break;
             case ItemType.BOMB:
+                if (bombCount == 0) {
+                    break;
+                }
                 bombCount--;
                 uiManager.SetItemCountText(itemType, bombCount);
                 UseBomb();
@@ -96,5 +101,9 @@ public class ItemManager :MonoBehaviour {
 
     public void UseBomb() {
         // TODO(dhUM): 폭탄 사용 코드 처리
+    }
+
+    public void RemoveItem(GameObject gameObject) {
+        itemPool.RemoveItemList(gameObject);
     }
 }
