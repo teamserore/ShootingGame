@@ -46,7 +46,13 @@ public class DevilEnemy : EnemyScript {
 			else if (count == 40){
 				//Instantiate(enemyBullet, this.transform.position, Quaternion.identity);
 			}
+			else if (count == 45){
+				//Instantiate(enemyBullet, this.transform.position, Quaternion.identity);
+			}
 			else if (count == 50){
+				//Instantiate(enemyBullet, this.transform.position, Quaternion.identity);
+			}
+			else if (count == 55){
 				//Instantiate(enemyBullet, this.transform.position, Quaternion.identity);
 			}
 			else if (count > 100){
@@ -73,11 +79,6 @@ public class DevilEnemy : EnemyScript {
 			if (transform.position.y <= -10){
 				Destroy(this.gameObject);
 			}
-
-			//if (transform.position.y > 10)
-			//{
-			//    Destroy(this.gameObject);
-			//}
 		}
 
 		if (enemyInfo.hp <= 0){ // hit

@@ -11,9 +11,13 @@ public class EnemyScript : MonoBehaviour {
     public bool hasItem = false;
 
     void Start (){
-        coll = GetComponent<BoxCollider2D>(); 
+		coll = GetComponent<BoxCollider2D> ();
         player = GameObject.FindWithTag("Player").GetComponent<PlayerScript>();
     }
+
+	void Enable (){
+		coll.enabled = true;
+	}
 
 	protected void Die () {
 		if(coll == null) {
@@ -39,7 +43,7 @@ public class EnemyScript : MonoBehaviour {
 		}
 	}
 
-    protected void DownHP (int hp) {
+    public void DownHP (int hp) {
 		enemyInfo.hp -= hp;
 		if (enemyInfo.hp <= 0){
 			Die ();

@@ -1,19 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BulletScript :MonoBehaviour {
-	protected BulletStruct bulletInfo;
-	protected EnemyScript enemy;	
-	protected EnemyStruct enemyInfo;
-	protected PlayerStruct playerInfo;
+public enum MBulletType {
+	AIMED,
+	DIRECTION,
+	RIGHTANGLE
+}
+
+public class MonsterBulletScript :MonoBehaviour {
 	protected PlayerScript player;
-	protected ItemManager itemManager;
 	protected GameManager gameManager;
 	protected BoxCollider2D coll = null; // BoxCollider2D
 
 
-	void Start() {
+    void Start() {
+		coll = GetComponent<BoxCollider2D> ();
+		player = GameObject.FindWithTag("Player").GetComponent<PlayerScript>();
+    }
 
+	void Enable() {
+		coll.enabled = true;
 	}
 
 	void Awake(){
@@ -28,11 +34,12 @@ public class BulletScript :MonoBehaviour {
 			Die ();
 		} 
 	}
-
+		
 	protected void Die () {
+		if(coll == null) {
+			coll = GetComponent<BoxCollider2D>() ;
+		}
 		coll.enabled = false;
-		transform.localScale = new Vector2 (transform.localScale.x - 0.01f, transform.localScale.y - 0.01f);
 		gameObject.SetActive (false);
-		gameManager.PlusCandy(enemyInfo.dropCandy);
 	}
 }

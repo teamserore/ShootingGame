@@ -1,131 +1,100 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum BulletType{
-	AIMED,
-	DIRECTION,
-	PLAYER
-}
-
 public class MonsterBulletPool : MonoBehaviour {
-	MGameObject[,] bulletObject;
+
+	public GameObject[] typeMBullet = new GameObject[3];
+	public GameObject[,] mbulletObject;
 	const int TYPE_COUNT = 3;
-	const int BULLET_COUNT = 10;
+	const int MBULLET_COUNT = 10;
+	GameObject go;
 
-	class MGameObject{
-		public bool active;
-		public GameObject gameObject;
-	}
-
-	//리스트를 동적으로 생성
-	public void Create () {
+	public void Create() {
 		Dispose();
-		bulletObject = new MGameObject[TYPE_COUNT,BULLET_COUNT];
+		mbulletObject = new GameObject[TYPE_COUNT, MBULLET_COUNT];
 	}
 
-	public void AddBullet (Object original) {
-		for( int i=0; i<TYPE_COUNT; i++){
-			for( int j=0; j<BULLET_COUNT; j++){
-				MGameObject mGameObject = new MGameObject();
-				mGameObject.active = false;
-				mGameObject.gameObject = GameObject.Instantiate(original) as GameObject;
-				mGameObject.gameObject.SetActive(false);
-				switch (i){
-				case (int)BulletType.AIMED:
-					mGameObject.gameObject.AddComponent<AimedBullet>();
-					break;
-				case (int)BulletType.DIRECTION:
-					mGameObject.gameObject.AddComponent<DirectionBullet>();
-					break;
-				}
-				bulletObject[i,j] = mGameObject;
+	public void AddMBullet () {
+		for (int i = 0; i < TYPE_COUNT; i++) {
+			for (int j = 0; j < MBULLET_COUNT; j++) {
+				go = Instantiate(typeMBullet[i]);
+				go.SetActive(false);
+				mbulletObject[i, j] = go;
 			}
 		}
-
 	}
 
-	//위의 함수를 이용하여 초기화된 객체들 중 특정 객체의 위치를 지정하고 활성화
-	public GameObject NewBullet(int type, GameObject respawn){
-		if (bulletObject == null){
+	public GameObject NewMBullet (MBulletType mbulletType, GameObject respawn) {
+		int type = (int)mbulletType;
+		if (mbulletObject == null) {
 			return null;
 		}
 
-		for (int i = 0; i < BULLET_COUNT; i++){
-			MGameObject mGameObject = (MGameObject)bulletObject[type,i];
-
-			if (mGameObject.active == false){
+		for (int i = 0; i < MBULLET_COUNT; i++) {
+			GameObject mGameObject = (GameObject)mbulletObject[type, i];
+			if (mGameObject.activeSelf == false) {
 				mGameObject.gameObject.transform.position = respawn.transform.position;
-				mGameObject.gameObject.transform.rotation = respawn.transform.rotation;
+				mGameObject.SetActive(true);
 
-				mGameObject.active = true;
-				mGameObject.gameObject.SetActive(true);
-
-				return mGameObject.gameObject;
+				return mGameObject;
 			}
 		}
 		return null;
 	}
 
-	public void RemoveBullettList (int type, int index) {
-		if (bulletObject == null || gameObject == null)
-		{
+	public void RemoveMBulletList (GameObject gameObject) {
+		if (mbulletObject == null || gameObject == null) {
 			return;
 		}
 
-
-		for (int i = 0; i < BULLET_COUNT; i++){
-			MGameObject mGameObject = (MGameObject)bulletObject[type,i];
-
-			if (mGameObject.gameObject == gameObject)
-			{
-				mGameObject.active = false;
-				mGameObject.gameObject.SetActive(false);
-
-				break;
+		for (int i = 0; i < TYPE_COUNT; i++) {
+			for (int j = 0; j < MBULLET_COUNT; j++) {
+				GameObject mGameObject = (GameObject)mbulletObject[i, j];
+				if (mGameObject == gameObject) {
+					mGameObject.gameObject.SetActive(false);
+					break;
+				}
 			}
 		}
-	} 
+	}
 
-	public void ClearBullet (int type) {
-		if (bulletObject == null){
+	public void ClearMBullet (int type) {
+		if (mbulletObject == null) {
 			return;
 		}
 
-		for (int i = 0; i < BULLET_COUNT; i++){
-			MGameObject mGameObject = (MGameObject)bulletObject[type,i];
-
-			if (mGameObject != null && mGameObject.active){
+		for (int i = 0; i < MBULLET_COUNT; i++) {
+			GameObject mGameObject = mbulletObject[type, i];
+			if (mGameObject != null && mGameObject.active) {
 				mGameObject.active = false;
 				mGameObject.gameObject.SetActive(false);
 			}
 		}
 	}
 
-	public void Dispose () {
-		if (bulletObject == null){
+	public void Dispose() {
+		if (mbulletObject == null) {
 			return;
 		}
 
-		for (int i = 0; i < TYPE_COUNT; i++){
-			for (int j = 0; j < BULLET_COUNT; j++){
-				MGameObject mGameObject = (MGameObject)bulletObject[i,j];
-				GameObject.Destroy(mGameObject.gameObject);
+		for (int i = 0; i < TYPE_COUNT; i++) {
+			for (int j = 0; j < MBULLET_COUNT; j++) {
+				GameObject mGameObject = mbulletObject [i, j];
+				GameObject.Destroy (mGameObject.gameObject);
 			}
-
 		}
-
-		bulletObject = null;
+		mbulletObject = null;
 	}
 
-	public IEnumerator GetEnumerator(int type){
-		if (bulletObject == null){
+	public IEnumerator GetEnumerator(int type)
+	{
+		if (mbulletObject == null) {
 			yield break;
 		}
 
-		for (int i = 0; i < BULLET_COUNT; i++){
-			MGameObject mGameObject = (MGameObject)bulletObject[type, i];
-
-			if (mGameObject.active){
+		for (int i = 0; i < MBULLET_COUNT; i++) {
+			GameObject mGameObject = mbulletObject[type, i];
+			if (mGameObject.activeSelf) {
 				yield return mGameObject.gameObject;
 			}
 		}

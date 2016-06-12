@@ -14,9 +14,9 @@ public class PirateEnemy : EnemyScript {
 		if (count < 40) {
 			transform.Translate (Vector2.down * Time.deltaTime * enemyInfo.speed); // move down
 		} else if (count == 40) {
-			//Instantiate (enemyBullet, this.transform.position, Quaternion.identity);
+			MonsterBulletManager.instance.CreateMBullet (MBulletType.AIMED, gameObject);
 		} else if (count == 50) {
-			//Instantiate (enemyBullet, this.transform.position, Quaternion.identity);
+			MonsterBulletManager.instance.CreateMBullet (MBulletType.AIMED, gameObject);
 		} else if (count > 100) {
 			transform.Translate (Vector2.down * Time.deltaTime * enemyInfo.speed); // move down
 		}
