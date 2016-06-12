@@ -10,6 +10,7 @@ public class DirectionBullet : MonsterBulletScript {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.Translate(Vector2.down * Time.deltaTime * enemyInfo.speed); // move down
+		transform.Translate(Vector2.down * Time.deltaTime * 9); // move down
+		//speed need to fix
 	}
 }

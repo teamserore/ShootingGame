@@ -11,11 +11,11 @@ public class PirateEnemy : EnemyScript {
 	// Update is called once per frame
 	void Update (){
 		count++;
-		if (count < 40) {
+		if (count < 30) {
 			transform.Translate (Vector2.down * Time.deltaTime * enemyInfo.speed); // move down
-		} else if (count == 40) {
+		} else if (count == 30) {
 			MonsterBulletManager.instance.CreateAimedBullet (gameObject);
-		} else if (count == 50) {
+		} else if (count == 40) {
 			MonsterBulletManager.instance.CreateAimedBullet (gameObject);
 		} else if (count > 100) {
 			transform.Translate (Vector2.down * Time.deltaTime * enemyInfo.speed); // move down
