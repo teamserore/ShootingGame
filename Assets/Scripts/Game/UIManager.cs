@@ -3,32 +3,52 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class UIManager :MonoBehaviour {
-   
+
     // InGameView
-	Sprite PowerIcon;
-    Sprite BombIcon;
-    public GameObject playerHP;
     public GameObject InGameView;
-    public GameObject PauseView;
-    public GameObject ResultView;
+    public Slider hpSlider;
     public Text tvCandy;
     public Text tvScore;
     public Text itemPowerCount;
     public Text itemBombCount;
 
+    // PauseView, SettingView
+    public GameObject PauseView;
+    public GameObject SettingView;
+    public Slider soundSlider;
+    public Slider bgmSlider;
+
     // Result View
+    public GameObject ResultView;
     public Text tvResultCandy;
     public Text tvResultScore;
     public Text tvBestScore;
     public GameObject PlusCandyInGame;
     public Text tvPlusCandyInGame;
 
+    public void Start() {
+        soundSlider.onValueChanged.AddListener(delegate {
+            SoundValueChaned();
+        });
+        bgmSlider.onValueChanged.AddListener(delegate {
+            BgmValueChaned();
+        });
+    }
+
+    public void SoundValueChaned() {
+        Debug.Log("a");
+    }
+
+    public void BgmValueChaned() {
+        Debug.Log("b");
+    }
+
     public void UpPlayerHpSlider(int hp) {
-        playerHP.transform.localScale += new Vector3(hp / 100f, 0, 0);
+        hpSlider.value += hp / 100f;
     }
 
     public void DownPlayerHpSlider(int hp) {
-        playerHP.transform.localScale -= new Vector3(hp / 100f, 0, 0);
+        hpSlider.value -= hp / 100f;
     }
 
     public void SetItemCountText(ItemType itemType, int count) {
@@ -86,5 +106,13 @@ public class UIManager :MonoBehaviour {
 
     public void SetTextBestScore(int score) {
         tvBestScore.text = score + "";
+    }
+
+    public void SetPasueView(bool flag) {
+        PauseView.SetActive(flag);
+    }
+
+    public void SetSettingView(bool flag) {
+        SettingView.SetActive(flag);
     }
 }

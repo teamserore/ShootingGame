@@ -75,6 +75,10 @@ public class GameManager :MonoBehaviour {
         MSceneManager.GameGo();
     }
 
+    public void MainGo() {
+        MSceneManager.MainGo();
+    }
+
     public void Pause() {
         Time.timeScale = 0;
         GS = GameState.Pause;
