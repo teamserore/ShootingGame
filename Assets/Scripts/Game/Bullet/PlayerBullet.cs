@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerBullet : BulletScript {
 
 	void Start () {
-        base.bulletInfo.speed = 10.0f;
+        base.bulletInfo.speed = 15.0f;
         //base.bulletInfo.power = StaticObject.playerPower;
         
     }
@@ -29,24 +29,9 @@ public class PlayerBullet : BulletScript {
 
     void Die()
     {
-        //TODO(shBOO)캔디점수추가
-        StartCoroutine(this.PushObjectPool());
-    }
-
-        IEnumerator PushObjectPool() {
-        yield return new WaitForSeconds(0.0f);
-
-        //bulletInfo.power = playerInfo.power;
-        //CheckPowerLv();
-        //TODO(shBOO) 플레이어 탄의 power에 따라 프리팹 바꿔주기
-
+        coll.enabled = false;
+        transform.localScale = new Vector2(transform.localScale.x - 0.01f, transform.localScale.y - 0.01f);
         gameObject.SetActive(false);
+        gameManager.PlusCandy(enemyInfo.dropCandy);
     }
-    //void CheckPowerLv() //TODO(shBOO)함수 수정
-    //{
-    //    if (0 < playerInfo.power && playerInfo.power <= 2.2) {/*TODO (shBOO)첫 번째 오브젝트 풀링*/ }
-    //    else if (2.2 < playerInfo.power && playerInfo.power <= 3.8) {/*TODO (shBOO)두 번째 오브젝트 풀링*/ }
-    //    else if (3.8 < playerInfo.power && playerInfo.power <= 4.6) {/*TODO (shBOO)세 번째 오브젝트 풀링*/ }
-    //    else { Debug.Log("플레이어 탄 레벨 에러"); }
-    //}
 }
