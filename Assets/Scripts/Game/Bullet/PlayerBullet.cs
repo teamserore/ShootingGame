@@ -12,13 +12,12 @@ public class PlayerBullet : BulletScript {
     void Update () {
         transform.Translate(Vector2.up * base.bulletInfo.speed * Time.deltaTime);
 
-        if (transform.position.y >= 20) {
+        if (transform.position.y >= 10) {
             this.Die();
         }
     }
 
-    bool OnTriggerEnter2D(Collider2D coll) //피격처리
-    {
+    bool OnTriggerEnter2D(Collider2D coll) { //피격처리
         if(coll.gameObject.tag == "Enemy") {
             this.Die();
             Debug.Log("총알 에너미 접촉");
@@ -27,8 +26,7 @@ public class PlayerBullet : BulletScript {
         return false;
     }
 
-    void Die()
-    {
+    void Die() {
         coll.enabled = false;
         transform.localScale = new Vector2(transform.localScale.x - 0.01f, transform.localScale.y - 0.01f);
         gameObject.SetActive(false);
