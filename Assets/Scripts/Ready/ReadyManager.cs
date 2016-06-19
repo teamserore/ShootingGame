@@ -1,11 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
-
-public enum PopupKind {
-    POWER,
-    LIFE,
-}
 
 public class ReadyManager :MonoBehaviour {
 
@@ -15,25 +9,26 @@ public class ReadyManager :MonoBehaviour {
     // 사용자의 현재 레벨과 슬롯 수
     int candy;
     int powerLevel;
-    int lifeLevel;
 
     // 1회용 아이템 가격
     int powerPrice;
+    int lifePrice;
     int bombPrice;
 
-    public bool isGetPower = false;
-    public bool isGetBomb = false;
-
-    PopupKind popupKind;
+    int powerItemCount = 0;
+    int lifeItemCount = 1;
+    int bombItemCount = 0;
 
     void Start() {
         candy = PlayerPrefs.GetInt("Candy", 500);
         powerLevel = PlayerPrefs.GetInt("PowerLevel", 1);
-        lifeLevel = PlayerPrefs.GetInt("LifeLevel", 1);
-
+        DefSettingIO.getInstance.GetData("LifePrice", out lifePrice);
         DefSettingIO.getInstance.GetData("PowerPrice", out powerPrice);
         DefSettingIO.getInstance.GetData("BombPrice", out bombPrice);
-
+        uiManager.SetPowerLevel(powerLevel);
+        uiManager.SetPowerImage(powerLevel);
+        PlayerPrefs.SetInt("HP", lifeItemCount);
+        DontDestroyOnLoad(gameObject);
     }
 
     void Update() {
@@ -48,76 +43,49 @@ public class ReadyManager :MonoBehaviour {
         MSceneManager.GameGo();
     }
 
-    // 공격력 레벨업 시도
+    // 공격력 레벨업
     public void levelUpPower() {
-        StatStruct tempData;
-        StatIO.getInstance.GetStatData(powerLevel + 1, out tempData);
+        StatStruct curData;
+        StatIO.getInstance.GetStatData(powerLevel, out curData);
 
-        popupKind = PopupKind.POWER;
-        uiManager.ShowPopup(tempData.candyForPower);
-    }
+        if (minusCandy(curData.candyForPower)) {
+            SoundEffectManager.instance.PlayButtonClickSound();
+            powerLevel++;
+            PlayerPrefs.SetInt("PowerLevel", powerLevel);
+            uiManager.SetPowerLevel(powerLevel);
 
-    // 생명력 레벨업 시도
-    public void levelUpLife() {
-        StatStruct tempData;
-        StatIO.getInstance.GetStatData(lifeLevel + 1, out tempData);
+            StatStruct nextData;
+            StatIO.getInstance.GetStatData(powerLevel, out nextData);
+            uiManager.SetPowerLevelPrice(nextData.candyForPower);
 
-        popupKind = PopupKind.LIFE;
-        uiManager.ShowPopup(tempData.candyForLife);
-    }
-
-    // 확인
-    public void OK() {
-        SoundEffectManager.instance.PlayButtonClickSound();
-        switch (popupKind) {
-            case PopupKind.POWER:
-                StatStruct tempData1;
-                StatIO.getInstance.GetStatData(powerLevel + 1, out tempData1);
-                if (minusCandy(tempData1.candyForPower)) {
-                    powerLevel++;
-                    PlayerPrefs.SetInt("PowerLevel", powerLevel);
-                }
-                break;
-            case PopupKind.LIFE:
-                StatStruct tempData2;
-                StatIO.getInstance.GetStatData(lifeLevel + 1, out tempData2);
-                if (minusCandy(tempData2.candyForLife)) {
-                    lifeLevel++;
-                    PlayerPrefs.SetInt("LifeLevel", lifeLevel);
-                }
-                break;
-
-        }
-        uiManager.dismissPopup();
-    }
-
-    public void Cancel() {
-        SoundEffectManager.instance.PlayButtonClickSound();
-        uiManager.dismissPopup();
-    }
-
-    // 일회용 아이템(파워,폭탄) 구매 
-    public void BuyItem(int type) {
-        SoundEffectManager.instance.PlayButtonClickSound();
-        switch ((ItemType)type) {
-            case ItemType.POWER:
-                if (minusCandy(powerPrice)) {
-                    isGetPower = true;
-                }
-                break;
-            case ItemType.BOMB:
-                if (minusCandy(bombPrice)) {
-                    isGetBomb = true;
-                }
-                break;
+            uiManager.SetPowerImage(powerLevel);
         }
     }
 
+    // 생명 아이템
+    public void BuyLifeItem() {
+        if (minusCandy(lifePrice) && lifeItemCount < 1) {
+            SoundEffectManager.instance.PlayButtonClickSound();
+            lifeItemCount++;
+            PlayerPrefs.SetInt("HP", lifeItemCount);
+            uiManager.SetLifeItemCount(lifeItemCount-1);
+        }
+    }
 
-    private void plusCandy(int candy) {
-        this.candy += candy;
-        PlayerPrefs.SetInt("Candy", this.candy);
-        topBarManager.SetTextCandy(candy);
+    public void BuyPowerItem() {
+        if (minusCandy(powerPrice) && powerItemCount < 3) {
+            SoundEffectManager.instance.PlayButtonClickSound();
+            powerItemCount++;
+            uiManager.SetPowerItemCount(powerItemCount);
+        }
+    }
+
+    public void BuyBombItem() {
+        if (minusCandy(bombPrice) && bombItemCount < 3) {
+            SoundEffectManager.instance.PlayButtonClickSound();
+            bombItemCount++;
+            uiManager.SetBombItemCount(bombItemCount);
+        }
     }
 
     private bool minusCandy(int candy) {
@@ -128,5 +96,13 @@ public class ReadyManager :MonoBehaviour {
         PlayerPrefs.SetInt("Candy", this.candy);
         topBarManager.SetTextCandy(candy);
         return true;
+    }
+
+    public int GetPowerItemCount() {
+        return powerItemCount;
+    }
+
+    public int GetBombItemCount() {
+        return bombItemCount;
     }
 }

@@ -36,42 +36,42 @@ public class EnemyPool : MonoBehaviour {
 			if (mGameObject.activeSelf == false){
 				switch (respawn) {
 				// Top
-				case 0:
+				case 1:
 					mGameObject.transform.position = new Vector2(-2f, 10f);
 					break;
-				case 1:
+				case 2:
 					mGameObject.transform.position = new Vector2(0f, 10f);
 					break;
-				case 2:
+				case 3:
 					mGameObject.transform.position = new Vector2(2f, 10f);
 					break;
-				case 3:
+				case 4:
 					mGameObject.transform.position = new Vector2(4f, 10f);
 					break;
 					// Left
-				case 4:
+				case 5:
 					mGameObject.transform.position = new Vector2(-5f, 8f);
 					break;
-				case 5:
+				case 6:
 					mGameObject.transform.position = new Vector2(-5f, 7f);
 					break;
-				case 6:
+				case 7:
 					mGameObject.transform.position = new Vector2(-5f, 6f);
 					break;
-				case 7:
+				case 8:
 					mGameObject.transform.position = new Vector2(-5f, 5f);
 					break;
 					// Right
-				case 8:
+				case 9:
 					mGameObject.transform.position = new Vector2(5f, 8f);
 					break;
-				case 9:
+				case 10:
 					mGameObject.transform.position = new Vector2(5f, 7f);
 					break;
-				case 10:
+				case 11:
 					mGameObject.transform.position = new Vector2(5f, 6f);
 					break;
-				case 11:
+				case 12:
 					mGameObject.transform.position = new Vector2(5f, 5f);
 					break;
 				}
@@ -82,10 +82,6 @@ public class EnemyPool : MonoBehaviour {
                         mGameObject.GetComponent<EnemyScript>().hasItem = true;
                         break;
                     case 1:
-                        mGameObject.GetComponent<EnemyScript>().itemType = ItemType.LIFE;
-                        mGameObject.GetComponent<EnemyScript>().hasItem = true;
-                        break;
-                    case 2:
                         mGameObject.GetComponent<EnemyScript>().itemType = ItemType.BOMB;
                         mGameObject.GetComponent<EnemyScript>().hasItem = true;
                         break;

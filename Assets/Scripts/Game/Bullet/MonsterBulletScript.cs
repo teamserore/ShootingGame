@@ -37,4 +37,5 @@ public class MonsterBulletScript :MonoBehaviour {
 		coll.enabled = false;
 		gameObject.SetActive (false);
 	}
+
 }

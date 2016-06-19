@@ -7,7 +7,6 @@ public class UIManager :MonoBehaviour {
     public TobBarManager topBarManager;
     // InGameView
     public GameObject InGameView;
-    public Slider hpSlider;
     public Text tvScore;
     public Text itemPowerCount;
     public Text itemBombCount;
@@ -22,14 +21,6 @@ public class UIManager :MonoBehaviour {
 
     void Start() {
         tvScore.text = PlayerPrefs.GetInt("BestScore", 3) + "";
-    }
-
-    public void UpPlayerHpSlider(int hp) {
-        hpSlider.value += hp / 100f;
-    }
-
-    public void DownPlayerHpSlider(int hp) {
-        hpSlider.value -= hp / 100f;
     }
 
     public void SetItemCountText(ItemType itemType, int count) {

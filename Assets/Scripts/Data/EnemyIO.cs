@@ -33,7 +33,6 @@ public class EnemyIO :DataIO {
         int count = 0;
         EnemyStruct tempData;
         tempData.index = Convert.ToInt32(inputData[count++]);
-        tempData.power = Convert.ToInt32(inputData[count++]);
         tempData.hp = Convert.ToInt32(inputData[count++]);
         tempData.speed = Convert.ToInt32(inputData[count++]);
         tempData.dropCandy = Convert.ToInt32(inputData[count++]);

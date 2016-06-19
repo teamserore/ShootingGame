@@ -2,42 +2,26 @@
 using System.Collections;
 
 public class PlayerScript : MonoBehaviour {
-    UIManager uiManager;
-	GameManager gameManager;
+    public UIManager uiManager;
+    public GameManager gameManager;
     public PlayerStruct playerInfo;
-	EnemyStruct enemyInfo;
-	BulletStruct bulletInfo;
-	PlayerBulletPool bulletPool;
-	GameState GS;
 	private Vector2 MovePos;
-	private float time;
-	private float attackCoolTime;
 
 	void Start () {
         playerInfo = new PlayerStruct();
+        DefSettingIO.getInstance.GetData("UserSpeed", out playerInfo.speed);
 
         int powerLevel = PlayerPrefs.GetInt("PowerLevel", 1);
-        int lifeLevel = PlayerPrefs.GetInt("LifeLevel", 1);
- 
         StatStruct tempData;
         StatIO.getInstance.GetStatData(powerLevel, out tempData);
         playerInfo.power = tempData.power;
-        StatIO.getInstance.GetStatData(lifeLevel, out tempData);
-        playerInfo.maxHP = tempData.life;
-        playerInfo.hp = tempData.life;
-
-        DefSettingIO.getInstance.GetData("UserSpeed", out playerInfo.speed);
-		attackCoolTime = 0.5f;
-		time = 0;
+        playerInfo.maxHP = PlayerPrefs.GetInt("HP", 1);
+        playerInfo.hp = PlayerPrefs.GetInt("HP", 1);
     }
 
-	void Awake (){
-		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-	}
-
-	void Update()
+    void Update()
 	{
-		if (GS == GameState.Play) {
+		if (gameManager.getGameState() == GameState.Play) {
 
 			transform.position = new Vector3(Mathf.Clamp(transform.position.x, -5.0f, 5.0f), Mathf.Clamp(transform.position.y, -10.0f, 10.0f), 0); 
 			
@@ -82,49 +66,31 @@ public class PlayerScript : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D coll) {
-		if (coll.gameObject.tag == "Enemy"){
-			DownHP(enemyInfo.power);
+		if (coll.gameObject.tag == "Enemy" || coll.gameObject.tag == "Bullet") {
+			DownHP();
 		} 
-		else if (coll.gameObject.tag == "Bullet"){
-			DownHP(bulletInfo.power);
-		}
     }
 
-    public void UpHP(int hp){
-        playerInfo.hp += hp;
-        if (playerInfo.hp > playerInfo.maxHP){
-            playerInfo.hp = playerInfo.maxHP;
+    public void DownHP(){
+        playerInfo.hp -= 1;
+        if (playerInfo.hp == 0) {
+            Die();
         }
-        uiManager.UpPlayerHpSlider(playerInfo.hp);
     }
 
-    public void DownHP(int hp){
-        playerInfo.hp -= hp;
-        if (playerInfo.hp < 0){
-            playerInfo.hp = 0;
-        }
-        uiManager.DownPlayerHpSlider(playerInfo.hp);
+    public int GetPower() {
+        return playerInfo.power;
     }
 
-    public void UpPower(int power){
-        playerInfo.power += power;
+    public void SetPower(int power) {
+        playerInfo.power = power;
     }
 
-    public void DownPower(int power){
-        playerInfo.power += power;
+    private void Die(){
+        //TODO(희겸): 플레이어 죽을 때 애니메이션 효과
+        Destroy(gameObject);
+        gameManager.GameOver();
     }
-
-    void Attack(){
-		//bulletPool.NewBullet (3, respawn);
-    }
-
-    void Die(){
-		transform.localScale = new Vector2 (transform.localScale.x - 0.01f, transform.localScale.y - 0.01f);
-		if (transform.localScale.x <= 0) {
-			Destroy (this.gameObject); // delete player
-			gameManager.GameOver ();
-		}
-	}
 
     public PlayerStruct getPlayerStruct() {
         return playerInfo;

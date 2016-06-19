@@ -28,7 +28,6 @@ public class EnemyScript : MonoBehaviour {
 		EnemyManager.instance.DieEnemy(gameObject);
         if (hasItem) {
             ItemManager.instance.CreateItem(itemType, gameObject);
-            Debug.Log("hasItem:true");
         }
         GameManager.instance.PlusCandy(enemyInfo.dropCandy);
         GameManager.instance.PlusScore();
@@ -49,4 +48,8 @@ public class EnemyScript : MonoBehaviour {
 			Die ();
 		}
 	}
+
+    public EnemyStruct getEnemyStruct() {
+        return enemyInfo;
+    }
 }

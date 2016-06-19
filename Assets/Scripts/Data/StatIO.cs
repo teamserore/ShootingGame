@@ -35,8 +35,6 @@ public class StatIO :DataIO {
         tempData.index = Convert.ToInt32(inputData[count++]);
         tempData.power = Convert.ToInt32(inputData[count++]);
         tempData.candyForPower = Convert.ToInt32(inputData[count++]);
-        tempData.life = Convert.ToInt32(inputData[count++]);
-        tempData.candyForLife = Convert.ToInt32(inputData[count++]);
         statList.Add(tempData.index, tempData);
     }
 

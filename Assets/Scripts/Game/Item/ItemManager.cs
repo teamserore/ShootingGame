@@ -4,13 +4,14 @@ using System.Collections;
 public class ItemManager :MonoBehaviour {
     public ItemPool itemPool;
     public UIManager uiManager;
-    PlayerScript player;
+    public PlayerScript player;
 
     int plusLife;
     int feverTimeCount;
     int plusPower;
+    int feverPower;
 
-    int powerCount=0;
+    int powerCount =0;
     int bombCount=0;
 
     private static ItemManager _instance;
@@ -28,9 +29,17 @@ public class ItemManager :MonoBehaviour {
     }
 
     void Start() {
+        ReadyManager readyManager = GameObject.Find("ReadyManager").GetComponent<ReadyManager>();
+        powerCount = readyManager.GetPowerItemCount();
+        bombCount = readyManager.GetBombItemCount();
+        uiManager.SetItemCountText(ItemType.POWER, powerCount);
+        uiManager.SetItemCountText(ItemType.BOMB, bombCount);
+        Destroy(GameObject.Find("ReadyManager"));
+
         DefSettingIO.getInstance.GetData("PlusLife", out plusLife);
         DefSettingIO.getInstance.GetData("FeverTimeCount", out feverTimeCount);
         DefSettingIO.getInstance.GetData("PlusPower", out plusPower);
+        DefSettingIO.getInstance.GetData("FeverPower", out feverPower);
 
         itemPool.Create();
         itemPool.AddItem();
@@ -44,10 +53,8 @@ public class ItemManager :MonoBehaviour {
         switch (itemType) {
             case ItemType.POWER:
                 powerCount++;
+                player.SetPower(player.GetPower() + plusPower);
                 uiManager.SetItemCountText(itemType, powerCount);
-                break;
-            case ItemType.LIFE:
-                UseItem(ItemType.LIFE);
                 break;
             case ItemType.BOMB:
                 bombCount++;
@@ -68,9 +75,6 @@ public class ItemManager :MonoBehaviour {
                 uiManager.SetItemCountText(itemType, powerCount);
                 UsePower();
                 break;
-            case ItemType.LIFE:
-                UseLife();
-                break;
             case ItemType.BOMB:
                 if (bombCount == 0) {
                     break;
@@ -84,19 +88,15 @@ public class ItemManager :MonoBehaviour {
         }
     }
 
-
-    public void UseLife() {
-        player.UpHP(plusLife);
-    }
-
     public void UsePower() {
         StartCoroutine(FeverTime());
     }
 
     IEnumerator FeverTime() {
-        player.UpPower(plusPower);
+        int prePower = player.GetPower();
+        player.SetPower(feverPower);
         yield return new WaitForSeconds(feverTimeCount);
-        player.DownPower(plusPower - 1);
+        player.SetPower(prePower);
     }
 
     public void UseBomb() {

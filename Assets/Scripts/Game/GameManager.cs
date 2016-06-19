@@ -38,6 +38,10 @@ public class GameManager :MonoBehaviour {
         StartCoroutine(PlusTime());
     }
 
+    public GameState getGameState() {
+        return GS;
+    }
+
     int ComputeScore(int score) {
         // TODO(dhUM): 점수 보정은 나중에 변경
         if (60 < time && time < 120) {
@@ -52,6 +56,7 @@ public class GameManager :MonoBehaviour {
 
 
     public void GameOver() {
+        Debug.Log("GameManager: GameOver");
         GS = GameState.End;
 
         score = ComputeScore(score);

@@ -3,7 +3,6 @@ using System.Collections;
 
 public enum ItemType {
     POWER,
-    LIFE,
     BOMB
 }
 
