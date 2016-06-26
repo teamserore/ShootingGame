@@ -34,12 +34,13 @@ public class EnemyScript : MonoBehaviour {
 	}
 
 	public void OnTriggerEnter2D (Collider2D coll) {
-		if (coll.gameObject.tag == "Player"){
-			Die ();
-		} 
-		else if (coll.gameObject.tag == "PlayerBullet"){
-			DownHP(1); //에러
-		}
+        if (coll.gameObject.tag == "Player") {
+            Die();
+        } else if (coll.gameObject.tag == "PlayerBullet") {
+            DownHP(1);
+        } else if (coll.gameObject.tag == "Bomb") {
+            Die();
+        }
 	}
 
     public void DownHP (int hp) {

@@ -5,6 +5,7 @@ public class ItemManager :MonoBehaviour {
     public ItemPool itemPool;
     public UIManager uiManager;
     public PlayerScript player;
+    public GameObject bomb;
 
     int plusLife;
     int feverTimeCount;
@@ -76,7 +77,7 @@ public class ItemManager :MonoBehaviour {
                 UsePower();
                 break;
             case ItemType.BOMB:
-                if (bombCount == 0) {
+                if (bombCount == 0 || bomb.activeSelf) {
                     break;
                 }
                 bombCount--;
@@ -100,7 +101,18 @@ public class ItemManager :MonoBehaviour {
     }
 
     public void UseBomb() {
-        // TODO(dhUM): 폭탄 사용 코드 처리
+        bomb.SetActive(true);
+        StartCoroutine(ClearMap());
+    }
+
+    IEnumerator ClearMap() {
+        yield return new WaitForSeconds(0.01f);
+        bomb.transform.Translate(new Vector3(0, 0.2f));
+        if (bomb.transform.localPosition.y > 20) {
+            bomb.SetActive(false);
+            yield break;
+        }
+        StartCoroutine(ClearMap());
     }
 
     public void RemoveItem(GameObject gameObject) {
