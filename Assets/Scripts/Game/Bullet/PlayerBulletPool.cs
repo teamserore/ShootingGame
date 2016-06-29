@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Collections.Generic; // Namespace for list type
 
-public class PlayerBulletPool : MonoBehaviour
-{
+public class PlayerBulletPool : MonoBehaviour {
     PlayerScript playerScript;
     public List<GameObject> playerBulletprefab = new List<GameObject>(); // Variable that assign bullet prefab
     private Transform playerBulletPoint; // Spawn point of playerBullet
@@ -12,7 +11,6 @@ public class PlayerBulletPool : MonoBehaviour
     private int maxPlayerBullet = 11;
     private int currentPowerLV; // +1한 값이 실제 레벨
 
-    // Use this for initialization
     void Start() {
         playerBulletPoint = GameObject.Find("FirePos").GetComponentInChildren<Transform>(); //발사위치확인
         /*프리팹 연결*/
@@ -40,28 +38,26 @@ public class PlayerBulletPool : MonoBehaviour
             }
         }
         if (playerBulletPoint != null) {
-            StartCoroutine(this.CreatePlayerBullet()); // Object Pooling
+            StartCoroutine(this.CreatePlayerBullet(currentPowerLV)); // Object Pooling
         }
     }
 
-    IEnumerator CreatePlayerBullet() {
+    public IEnumerator CreatePlayerBullet(int level) {
         while (GameManager.instance.GS != GameState.End) { // Repeat until game over 
             yield return new WaitForSeconds(playerBulletFrequency); // yield time to main loop
             if (GameManager.instance.GS == GameState.End) { yield break; } // Break coroutine when game over
-
-            currentPowerLV = 5; //CheckPowerLv(playerScript.playerInfo.power);
-
-            foreach (GameObject playerBullet in playerBulletPool) {   
-                if (!playerBullet.activeSelf && playerBullet.name == currentPowerLV.ToString()) {
+            foreach (GameObject playerBullet in playerBulletPool) {
+                if (!playerBullet.activeSelf && playerBullet.name == level.ToString()) {
                     playerBullet.transform.position = playerBulletPoint.position; // Set Bullet's spawn point
+                    playerBullet.GetComponent<BoxCollider2D>().enabled = true;
                     playerBullet.SetActive(true);
                     break;
                 }
             }
-
         }
     }
-    private int CheckPowerLv(float pw) { //TODO(shBOO)함수 수정
+
+    public int CheckPowerLv(float pw) {
         if (pw == 1.0f) { return 0; }
         else if (pw == 1.4f){ return 1; }
         else if (pw == 1.8f){ return 2; }
@@ -72,7 +68,7 @@ public class PlayerBulletPool : MonoBehaviour
         else if (pw == 3.8f){ return 7; }
         else if (pw == 4.2f){ return 8; }
         else if (pw == 4.6f){ return 9; }
-        else if (pw == 20.0f){ return 10;        }
+        else if (pw == 20.0f){ return 10; }
         else {
             Debug.Log("플레이어 탄 레벨 에러");
             return -1;

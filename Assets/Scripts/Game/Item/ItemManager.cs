@@ -6,6 +6,7 @@ public class ItemManager :MonoBehaviour {
     public UIManager uiManager;
     public PlayerScript player;
     public GameObject bomb;
+    public PlayerBulletPool playerBulletPool;
 
     int plusLife;
     int feverTimeCount;
@@ -56,6 +57,9 @@ public class ItemManager :MonoBehaviour {
                 powerCount++;
                 player.SetPower(player.GetPower() + plusPower);
                 uiManager.SetItemCountText(itemType, powerCount);
+                playerBulletPool.StopAllCoroutines();
+                //코루틴 재시작
+                StartCoroutine(playerBulletPool.CreatePlayerBullet(playerBulletPool.CheckPowerLv(player.GetPower())));
                 break;
             case ItemType.BOMB:
                 bombCount++;
@@ -90,6 +94,7 @@ public class ItemManager :MonoBehaviour {
     }
 
     public void UsePower() {
+        //TODO(SHBoo)캐릭터 파워수정, 코루틴 호출
         StartCoroutine(FeverTime());
     }
 

@@ -11,16 +11,10 @@ public class PlayerBullet : MonoBehaviour{
         DefSettingIO.getInstance.GetData("BulletSpeed", out bulletInfo.speed);
     }
 
-    void Enable() {
-        coll.enabled = true;
-    }
-
-
     void Awake() {
         coll = GetComponent<BoxCollider2D>(); // BoxCollider2D
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
-
 
     void Update () {
         transform.Translate(Vector2.up * bulletInfo.speed * Time.deltaTime);
