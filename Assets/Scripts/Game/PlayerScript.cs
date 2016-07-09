@@ -87,7 +87,7 @@ public class PlayerScript : MonoBehaviour {
     }
 
     private void Die(){
-        //TODO(희겸): 플레이어 죽을 때 애니메이션 효과
+		transform.Rotate(new Vector3(0, 0, 10)); // spin effect
         Destroy(gameObject);
         gameManager.GameOver();
     }

@@ -36,18 +36,15 @@ public class ThreeEyedEnemy : EnemyScript {
 				} else if (count == 210){
 					MonsterBulletManager.instance.CreateRightAngleBullet (gameObject);
 				}
-
 			}
 
 			if (transform.position.y <= -10)
 			{
-				Destroy(this.gameObject);
+				Die();
 			}
-
-			//if (transform.position.y > 10)
-			//{
-			//    Destroy(this.gameObject);
-			//}
+		} else if(enemyInfo.hp <= 0) {
+			Die ();
 		}
+
 	}
 }

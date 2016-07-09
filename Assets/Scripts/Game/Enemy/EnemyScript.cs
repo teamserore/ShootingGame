@@ -16,6 +16,7 @@ public class EnemyScript : MonoBehaviour {
     }
 
 	void Enable (){
+		
 		coll.enabled = true;
 	}
 
@@ -23,8 +24,6 @@ public class EnemyScript : MonoBehaviour {
 		if(coll == null) {
 			coll = GetComponent<BoxCollider2D>() ;
 		}
-
-		coll.enabled = false;
 		EnemyManager.instance.DieEnemy(gameObject);
         if (hasItem) {
             ItemManager.instance.CreateItem(itemType, gameObject);
@@ -37,7 +36,7 @@ public class EnemyScript : MonoBehaviour {
         if (coll.gameObject.tag == "Player") {
             Die();
         } else if (coll.gameObject.tag == "PlayerBullet") {
-            DownHP(1);
+            DownHP(1); // Need to fix it
         } else if (coll.gameObject.tag == "Bomb") {
             Die();
         }
