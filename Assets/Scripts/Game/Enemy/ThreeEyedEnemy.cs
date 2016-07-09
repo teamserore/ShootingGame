@@ -3,16 +3,33 @@ using System.Collections;
 
 public class ThreeEyedEnemy : EnemyScript {
 	private int count;
-    
+	protected BoxCollider2D coll = null;
+
 	void Start () {
         EnemyIO.getInstance.GetEnemyData(EnemyType.ThreeEyedEnemy, out enemyInfo);
     }
-	
+
+	void Awake(){
+		coll = GetComponent<BoxCollider2D> ();
+		coll.enabled = true;
+	}
+
+	public void OnTriggerEnter2D (Collider2D coll) {
+		if (coll.gameObject.tag == "Player") {
+			Die();
+		} else if (coll.gameObject.tag == "PlayerBullet") {
+			//DownHP(10); // Need to fix it
+			Die();
+		} else if (coll.gameObject.tag == "Bomb") {
+			Die();
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if (enemyInfo.hp > 0){ // no hit
 			count++;
-			if (count < 30){
+			if (count < 10){
 				transform.Translate (Vector2.down * Time.deltaTime * enemyInfo.speed); // move down
 			}
 			else if (count == 30){

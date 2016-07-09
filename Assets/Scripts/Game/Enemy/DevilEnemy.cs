@@ -4,16 +4,32 @@ using System.Collections;
 public class DevilEnemy : EnemyScript {
 	private int count;
 	Vector2 relativePos;
-	float angle;
 	float EnemyAngle;
 	float fX;
 	float fY;
+	protected BoxCollider2D coll = null;
 
 	void Start () {
 		EnemyIO.getInstance.GetEnemyData (EnemyType.DevilEnemy, out enemyInfo);
 		player = GameObject.FindWithTag ("Player").GetComponent<PlayerScript> ();
 	}
 
+	void Awake(){
+		coll = GetComponent<BoxCollider2D> ();
+		coll.enabled = true;
+	}
+
+	public void OnTriggerEnter2D (Collider2D coll) {
+		if (coll.gameObject.tag == "Player") {
+			Die();
+		} else if (coll.gameObject.tag == "PlayerBullet") {
+			//DownHP(10); // Need to fix it
+			Die();
+		} else if (coll.gameObject.tag == "Bomb") {
+			Die();
+		}
+	}
+		
 	// Update is called once per frame
 	void Update () {
 		count++;
@@ -56,16 +72,14 @@ public class DevilEnemy : EnemyScript {
 				transform.Translate (Vector2.down * Time.deltaTime * enemyInfo.speed); // move down
 			} else if (count == 220) {
 				relativePos = player.transform.position - this.transform.position;
-				angle = Mathf.Atan2 (relativePos.y, relativePos.x) * Mathf.Rad2Deg;
+				EnemyAngle = Mathf.Atan2 (relativePos.y, relativePos.x) * Mathf.Rad2Deg;
 
-				transform.localRotation = Quaternion.Euler(0, 0, (angle - 90));
+				fX = Mathf.Cos (EnemyAngle) - Mathf.Sin (EnemyAngle);
+				fY = Mathf.Cos (EnemyAngle) + Mathf.Sin (EnemyAngle);
+				// need to fix it
 
-				//fX = Mathf.Cos (angle) - Mathf.Sin (angle);
-				//fY = Mathf.Cos (angle) + Mathf.Sin (angle);
-
-				EnemyAngle = Random.Range (60 , 120);  
 			} else if (count < 300) {
-				transform.Translate (transform.up * enemyInfo.speed * Time.deltaTime, Space.World );
+				transform.Translate (new Vector2(-fX , fY) * Time.deltaTime * enemyInfo.speed);
 			}
 			if (transform.position.y <= -10){
 				Die ();

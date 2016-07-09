@@ -6,7 +6,7 @@ public class EnemyPool : MonoBehaviour {
 	public GameObject[] typeEnemy = new GameObject[9];
 	public GameObject[,] enemyObject;
 	const int TYPE_COUNT = 9;
-	const int ENEMY_COUNT = 10;
+	const int ENEMY_COUNT = 20;
 	GameObject go;
 
 	//리스트를 동적으로 생성
