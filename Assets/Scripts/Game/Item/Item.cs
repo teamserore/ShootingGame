@@ -8,6 +8,7 @@ public enum ItemType {
 
 public class Item :MonoBehaviour {
     public ItemType itemType;
+    protected BoxCollider2D coll = null;
 
     void OnTriggerEnter2D(Collider2D coll) {
         if (coll.gameObject.tag == "Player") {
@@ -15,6 +16,11 @@ public class Item :MonoBehaviour {
             ItemManager.instance.GetItem(item.itemType);
             ItemManager.instance.RemoveItem(gameObject);
         }
+    }
+
+    void OnEnable() {
+        coll = GetComponent<BoxCollider2D>();
+        coll.enabled = true;
     }
 
     void Update() {

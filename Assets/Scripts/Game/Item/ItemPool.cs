@@ -34,7 +34,7 @@ public class ItemPool : MonoBehaviour {
             GameObject mGameObject = (GameObject)itemObject[type, i];
             if (mGameObject.activeSelf == false) {
 
-                mGameObject.gameObject.transform.position = respawn.transform.position;
+                mGameObject.transform.position = respawn.transform.position;
                 mGameObject.SetActive(true);
 
                 return mGameObject;
@@ -43,7 +43,7 @@ public class ItemPool : MonoBehaviour {
         return null;
     }
 
-    public void RemoveItemList (GameObject gameObject) {
+    public void RemoveItemList(GameObject gameObject) {
         if (itemObject == null || gameObject == null) {
             return;
         }
@@ -52,23 +52,22 @@ public class ItemPool : MonoBehaviour {
             for (int j = 0; j < ITEM_COUNT; j++) {
                 GameObject mGameObject = (GameObject)itemObject[i, j];
                 if (mGameObject == gameObject) {
-                    mGameObject.gameObject.SetActive(false);
+                    mGameObject.SetActive(false);
                     break;
                 }
             }
         }
     }
 
-    public void ClearItem (int type) {
+    public void ClearItem(int type) {
         if (itemObject == null) {
             return;
         }
 
         for (int i = 0; i < ITEM_COUNT; i++) {
             GameObject mGameObject = itemObject[type, i];
-            if (mGameObject != null && mGameObject.active) {
-                mGameObject.active = false;
-                mGameObject.gameObject.SetActive(false);
+            if (mGameObject != null) {
+                mGameObject.SetActive(false);
             }
         }
     }
