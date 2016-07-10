@@ -3,9 +3,9 @@ using System.Collections;
 
 public class EnemyPool : MonoBehaviour {
 
-	public GameObject[] typeEnemy = new GameObject[9];
+	public GameObject[] typeEnemy = new GameObject[14];
 	public GameObject[,] enemyObject;
-	const int TYPE_COUNT = 9;
+	const int TYPE_COUNT = 14;
 	const int ENEMY_COUNT = 20;
 	GameObject go;
 
