@@ -3,27 +3,16 @@ using System.Collections;
 
 public class OneEyedEnemy : EnemyScript {
 	private int count = 0;
-	protected BoxCollider2D coll = null;
+	private int hp;
 
 	// Use this for initialization
 	void Start () {
         EnemyIO.getInstance.GetEnemyData(EnemyType.OneEyedEnemy, out enemyInfo);
+		hp = enemyInfo.hp;
     }
 
-	void Awake(){
-		coll = GetComponent<BoxCollider2D> ();
-		coll.enabled = true;
-	}
-
-	public void OnTriggerEnter2D (Collider2D coll) {
-		if (coll.gameObject.tag == "Player") {
-			Die();
-		} else if (coll.gameObject.tag == "PlayerBullet") {
-			//DownHP(10); // Need to fix it
-			Die();
-		} else if (coll.gameObject.tag == "Bomb") {
-			Die();
-		}
+	void OnEnable() {
+		hp = enemyInfo.hp;
 	}
 
 	// Update is called once per frame
@@ -38,7 +27,7 @@ public class OneEyedEnemy : EnemyScript {
 		} else if (count > 100) {
 			transform.Translate (Vector2.down * Time.deltaTime * enemyInfo.speed); // move down
 		}
-		if (enemyInfo.hp <= 0) {
+		if (hp <= 0) {
 			Die ();
 		} else if (transform.position.y <= -10) {
 			Die ();

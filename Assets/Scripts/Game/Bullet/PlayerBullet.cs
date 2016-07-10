@@ -27,7 +27,6 @@ public class PlayerBullet : MonoBehaviour{
 
     bool OnTriggerEnter2D(Collider2D coll) {
         if(coll.gameObject.tag == "Enemy") {
-            coll.enabled = false;
             gameObject.SetActive(false);
             gameManager.PlusCandy(coll.gameObject.GetComponent<EnemyScript>().getEnemyStruct().dropCandy);
             return true;

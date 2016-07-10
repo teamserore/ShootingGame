@@ -3,31 +3,20 @@ using System.Collections;
 
 public class ThreeEyedEnemy : EnemyScript {
 	private int count;
-	protected BoxCollider2D coll = null;
+	private int hp;
 
 	void Start () {
         EnemyIO.getInstance.GetEnemyData(EnemyType.ThreeEyedEnemy, out enemyInfo);
+		hp = enemyInfo.hp;
     }
 
-	void Awake(){
-		coll = GetComponent<BoxCollider2D> ();
-		coll.enabled = true;
-	}
-
-	public void OnTriggerEnter2D (Collider2D coll) {
-		if (coll.gameObject.tag == "Player") {
-			Die();
-		} else if (coll.gameObject.tag == "PlayerBullet") {
-			//DownHP(10); // Need to fix it
-			Die();
-		} else if (coll.gameObject.tag == "Bomb") {
-			Die();
-		}
+	void OnEnable(){
+		hp = enemyInfo.hp;
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if (enemyInfo.hp > 0){ // no hit
+		if (hp > 0){ // no hit
 			count++;
 			if (count < 10){
 				transform.Translate (Vector2.down * Time.deltaTime * enemyInfo.speed); // move down
@@ -59,7 +48,7 @@ public class ThreeEyedEnemy : EnemyScript {
 			{
 				Die();
 			}
-		} else if(enemyInfo.hp <= 0) {
+		} else if(hp <= 0) {
 			Die ();
 		}
 

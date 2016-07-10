@@ -3,7 +3,11 @@ using System.Collections;
 
 public class EnemyScript : MonoBehaviour {
 	protected EnemyStruct enemyInfo;
+	public PlayerStruct playerInfo;
     protected PlayerScript player;
+	protected BoxCollider2D coll = null;
+	protected int hp;
+	private int power;
 
     // Wave에 따라 달라지는 것들.
     public ItemType itemType;
@@ -13,6 +17,11 @@ public class EnemyScript : MonoBehaviour {
         player = GameObject.FindWithTag("Player").GetComponent<PlayerScript>();
     }
 		
+	void OnEnable(){
+		coll = GetComponent<BoxCollider2D> ();
+		coll.enabled = true;
+	}
+
 	protected void Die () {
 		EnemyManager.instance.DieEnemy(gameObject);
         if (hasItem) {
@@ -22,10 +31,21 @@ public class EnemyScript : MonoBehaviour {
         GameManager.instance.PlusScore();
 	}
 
-    public void DownHP (int hp) {
-		enemyInfo.hp -= hp;
-		if (enemyInfo.hp <= 0){
+    public void DownHP (int damage) {
+		hp -= damage;
+		if (hp <= 0){
 			Die ();
+		}
+	}
+
+	public void OnTriggerEnter2D (Collider2D coll) {
+		if (coll.gameObject.tag == "Player") {
+			Die();
+		} else if (coll.gameObject.tag == "PlayerBullet") {
+			power = playerInfo.power;
+			DownHP(power);
+		} else if (coll.gameObject.tag == "Bomb") {
+			Die();
 		}
 	}
 

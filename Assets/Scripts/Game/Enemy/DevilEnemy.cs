@@ -7,27 +7,16 @@ public class DevilEnemy : EnemyScript {
 	float EnemyAngle;
 	float fX;
 	float fY;
-	protected BoxCollider2D coll = null;
+	private int hp;
 
 	void Start () {
 		EnemyIO.getInstance.GetEnemyData (EnemyType.DevilEnemy, out enemyInfo);
 		player = GameObject.FindWithTag ("Player").GetComponent<PlayerScript> ();
+		hp = enemyInfo.hp;
 	}
 
-	void Awake(){
-		coll = GetComponent<BoxCollider2D> ();
-		coll.enabled = true;
-	}
-
-	public void OnTriggerEnter2D (Collider2D coll) {
-		if (coll.gameObject.tag == "Player") {
-			Die();
-		} else if (coll.gameObject.tag == "PlayerBullet") {
-			//DownHP(10); // Need to fix it
-			Die();
-		} else if (coll.gameObject.tag == "Bomb") {
-			Die();
-		}
+	void OnEnable(){
+		hp = enemyInfo.hp;
 	}
 		
 	// Update is called once per frame
@@ -85,7 +74,7 @@ public class DevilEnemy : EnemyScript {
 				Die ();
 			}
 
-		} else if (enemyInfo.hp <= 0) {
+		} else if (hp <= 0) {
 			Die ();
 		}
 	}
