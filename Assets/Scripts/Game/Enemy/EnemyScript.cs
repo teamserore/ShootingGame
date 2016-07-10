@@ -6,7 +6,7 @@ public class EnemyScript : MonoBehaviour {
 	public PlayerStruct playerInfo;
     protected PlayerScript player;
 	protected BoxCollider2D coll = null;
-	protected int hp;
+	protected int HP;
 	private int power;
 
     // Wave에 따라 달라지는 것들.
@@ -32,8 +32,8 @@ public class EnemyScript : MonoBehaviour {
 	}
 
     public void DownHP (int damage) {
-		hp -= damage;
-		if (hp <= 0){
+		HP -= damage;
+		if (HP <= 0){
 			Die ();
 		}
 	}

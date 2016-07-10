@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class EliteEnemy : EnemyScript {
+	private int hp;
 
 	// Use this for initialization
 	void Start () {
