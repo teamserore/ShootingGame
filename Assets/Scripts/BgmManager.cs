@@ -20,13 +20,12 @@ public class BgmManager : MonoBehaviour {
     private AudioClip[] stageBgm = null;
 
     void Start () {
-        
         DontDestroyOnLoad(gameObject);
         mainBgm = (AudioClip)Resources.Load("Sounds/Bgm/MainBgm") as AudioClip;
         stageBgm = new AudioClip[3];
-        //stageBgm1 = (AudioClip)Resources.Load("Sounds/Bgm/Stage1") as AudioClip;
-        //stageBgm2 = (AudioClip)Resources.Load("Sounds/Bgm/Stage2") as AudioClip;
-        //stageBgm3 = (AudioClip)Resources.Load("Sounds/Bgm/Stage3") as AudioClip;
+        stageBgm[0] = (AudioClip)Resources.Load("Sounds/Bgm/Stage1") as AudioClip;
+        stageBgm[1] = (AudioClip)Resources.Load("Sounds/Bgm/Stage2") as AudioClip;
+        stageBgm[2] = (AudioClip)Resources.Load("Sounds/Bgm/Stage3") as AudioClip;
     }
 
     public void PlayMainBgm() {
@@ -46,17 +45,17 @@ public class BgmManager : MonoBehaviour {
         }
         audio.clip = stageBgm[stage];
         audio.Play();
-        //switch (stage) {
-        //    case 1:
-        //        audio.clip = stageBgm1;
-        //        break;
-        //    case 2:
-        //        audio.clip = stageBgm2;
-        //        break;
-        //    case 3:
-        //        audio.clip = stageBgm3;
-        //        break;
-        //}
+        switch (stage) {
+            case 1:
+                audio.clip = stageBgm[0];
+                break;
+            case 2:
+                audio.clip = stageBgm[1];
+                break;
+            case 3:
+                audio.clip = stageBgm[2];
+                break;
+        }
     }
 
     public void BgmValueChanged(float value) {

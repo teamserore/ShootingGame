@@ -15,9 +15,13 @@ public class UIManager :MonoBehaviour {
     public GameObject ResultView;
     public Text tvResultCandy;
     public Text tvResultScore;
-    public Text tvBestScore;
+    public Text tvResultTime;
+    public Text tvRank1;
+    public Text tvRank2;
+    public Text tvRank3;
     public GameObject PlusCandyInGame;
     public Text tvPlusCandyInGame;
+   
 
     void Start() {
         tvScore.text = PlayerPrefs.GetInt("BestScore", 3) + "";
@@ -72,7 +76,14 @@ public class UIManager :MonoBehaviour {
         tvResultScore.text = score + "";
     }
 
-    public void SetTextBestScore(int score) {
-        tvBestScore.text = score + "";
+    public void SetTextResultTime(int time) {
+        // TODO(dhUm): time 예쁘게 출력..
+        tvResultTime.text = time + "";
+    }
+
+    public void SetTextRank(int score1, int score2, int score3) {
+        tvRank1.text = score1 + "";
+        tvRank2.text = score2 + "";
+        tvRank3.text = score3 + "";
     }
 }

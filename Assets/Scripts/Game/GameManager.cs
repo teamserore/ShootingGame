@@ -64,15 +64,28 @@ public class GameManager :MonoBehaviour {
         uiManager.SetInGameView(false);
         uiManager.SetResultView(true);
         uiManager.SetTextResultCandy(candy);
-        // player.SetActive(true);
-
-        int bestScore = PlayerPrefs.GetInt("BestScore", 10000);
-        if (score > bestScore) {
-            PlayerPrefs.SetInt("BestScore", score);
-        }
-        uiManager.SetTextBestScore(bestScore);
-
         PlayerPrefs.SetInt("Candy", candy);
+        uiManager.SetTextResultTime(time);
+        uiManager.SetTextResultScore(score);
+
+        int score1 = PlayerPrefs.GetInt("Score1", 0);
+        int score2 = PlayerPrefs.GetInt("Score2", 0);
+        int score3 = PlayerPrefs.GetInt("Score3", 0);
+        if (score > score1) {
+            score3 = score2;
+            score2 = score1;
+            score1 = score;
+        } else if (score > score2) {
+            score3 = score2;
+            score2 = score;
+        } else if (score > score3) {
+            score3 = score;
+        }
+        uiManager.SetTextRank(score1, score2, score3);
+        PlayerPrefs.SetInt("Score1", score1);
+        PlayerPrefs.SetInt("Score2", score2);
+        PlayerPrefs.SetInt("Score3", score3);
+
     }
 
     public void Replay() {
