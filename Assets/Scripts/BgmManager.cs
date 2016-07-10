@@ -40,11 +40,6 @@ public class BgmManager : MonoBehaviour {
         if (audio == null) {
             audio = GetComponent<AudioSource>();
         }
-        if(stageBgm[stage] == null) {
-            stageBgm[stage] = (AudioClip)Resources.Load("Sounds/stage" + stage) as AudioClip;
-        }
-        audio.clip = stageBgm[stage];
-        audio.Play();
         switch (stage) {
             case 1:
                 audio.clip = stageBgm[0];
@@ -56,6 +51,11 @@ public class BgmManager : MonoBehaviour {
                 audio.clip = stageBgm[2];
                 break;
         }
+
+        if (audio.clip == null) {
+            audio.clip = (AudioClip)Resources.Load("Sounds/stage" + stage) as AudioClip;
+        }
+        audio.Play();
     }
 
     public void BgmValueChanged(float value) {

@@ -21,7 +21,7 @@ public class IntroManager : MonoBehaviour {
     public void SetExitView(bool flag)
     {
         SoundEffectManager.instance.PlayButtonClickSound();
-        ExitView.SetActive(true);
+        ExitView.SetActive(flag);
     }
 
     public void Finish() {
