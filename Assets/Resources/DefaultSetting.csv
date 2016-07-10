@@ -1,6 +1,6 @@
 key,data,,설명
 UserSpeed,10,,플레이어 이속
-BulletSpeed,15,,플레이어 총알
+BulletSpeed,25,,플레이어 총알
 PowerPrice,50,,일회용 파워 아이템 가격캔디
 BombPrice,50,,일회용 폭탄 아이템 가격캔디
 LifePrice,50,,일회용 생명 아이템 가격캔디

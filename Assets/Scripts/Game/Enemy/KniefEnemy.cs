@@ -23,7 +23,7 @@ public class KniefEnemy : EnemyScript {
     }
     void Update() {
         this.transform.Rotate(0.0f, 0.0f, Time.deltaTime * 150); // 회전
-        this.transform.position = Vector2.MoveTowards(this.transform.position, playerPos, 0.1f);
+        this.transform.position = Vector2.MoveTowards(this.transform.position, playerPos, 0.3f);
 
         if (this.transform.position.y == playerPos.y) {
             this.gameObject.SetActive(false);
