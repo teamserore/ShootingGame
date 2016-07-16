@@ -23,7 +23,7 @@ public class PlayerScript : MonoBehaviour {
 	{
 		if (gameManager.getGameState() == GameState.Play) {
 
-			transform.position = new Vector3(Mathf.Clamp(transform.position.x, -5.0f, 5.0f), Mathf.Clamp(transform.position.y, -10.0f, 10.0f), 0); 
+			transform.position = new Vector3(Mathf.Clamp(transform.position.x, -5.0f, 5.0f), Mathf.Clamp(transform.position.y, -6.0f, 10.0f), 0); 
 			
 			// keyboard move
 			if (Input.GetKey (KeyCode.LeftArrow)){
