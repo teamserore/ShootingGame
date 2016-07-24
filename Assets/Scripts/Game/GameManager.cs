@@ -34,7 +34,7 @@ public class GameManager :MonoBehaviour {
         if (BgmManager.instance != null) {
             BgmManager.instance.PlayGameBgm(1);
         }
-        candy = PlayerPrefs.GetInt("Candy", 500);
+        candy = PlayerPrefs.GetInt("Candy", 100000);
         GS = GameState.Play;
         uiManager.SetTextCandy(candy);
         uiManager.SetTextScore(score);

@@ -13,7 +13,7 @@ public class TobBarManager : MonoBehaviour {
     public Slider bgmSlider;
 
     void Start () {
-        tvCandy.text = PlayerPrefs.GetInt("Candy", 500) + "";
+        tvCandy.text = PlayerPrefs.GetInt("Candy", 100000) + "";
 
         bool isGame = false;
         if (Application.loadedLevelName == "Game") {

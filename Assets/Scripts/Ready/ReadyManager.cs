@@ -6,6 +6,8 @@ public class ReadyManager :MonoBehaviour {
     public TobBarManager topBarManager;
     public ReadyUIManager uiManager;
 
+    int MAX_ITEM_COUNT = 3;
+
     // 사용자의 현재 레벨과 슬롯 수
     int candy;
     int powerLevel;
@@ -20,13 +22,16 @@ public class ReadyManager :MonoBehaviour {
     int bombItemCount = 0;
 
     void Start() {
-        candy = PlayerPrefs.GetInt("Candy", 500);
+        candy = PlayerPrefs.GetInt("Candy", 100000);
         powerLevel = PlayerPrefs.GetInt("PowerLevel", 1);
         DefSettingIO.getInstance.GetData("LifePrice", out lifePrice);
         DefSettingIO.getInstance.GetData("PowerPrice", out powerPrice);
         DefSettingIO.getInstance.GetData("BombPrice", out bombPrice);
         uiManager.SetPowerLevel(powerLevel);
         uiManager.SetPowerImage(powerLevel);
+        StatStruct nextData;
+        StatIO.getInstance.GetStatData(powerLevel, out nextData);
+        uiManager.SetPowerLevelPrice(nextData.candyForPower);
         PlayerPrefs.SetInt("HP", lifeItemCount);
         DontDestroyOnLoad(gameObject);
     }
@@ -38,7 +43,9 @@ public class ReadyManager :MonoBehaviour {
     }
 
     public void GameGo() {
-        SoundEffectManager.instance.PlayButtonClickSound();
+        if (SoundEffectManager.instance != null) {
+            SoundEffectManager.instance.PlayButtonClickSound();
+        }
         DontDestroyOnLoad(this.gameObject);
         MSceneManager.GameGo();
     }
@@ -48,8 +55,11 @@ public class ReadyManager :MonoBehaviour {
         StatStruct curData;
         StatIO.getInstance.GetStatData(powerLevel, out curData);
 
-        if (minusCandy(curData.candyForPower)) {
-            SoundEffectManager.instance.PlayButtonClickSound();
+        if (checkCandy(curData.candyForPower)) {
+            if (SoundEffectManager.instance != null) {
+                SoundEffectManager.instance.PlayButtonClickSound();
+            }
+            minusCandy(curData.candyForPower);
             powerLevel++;
             PlayerPrefs.SetInt("PowerLevel", powerLevel);
             uiManager.SetPowerLevel(powerLevel);
@@ -57,15 +67,16 @@ public class ReadyManager :MonoBehaviour {
             StatStruct nextData;
             StatIO.getInstance.GetStatData(powerLevel, out nextData);
             uiManager.SetPowerLevelPrice(nextData.candyForPower);
-
             uiManager.SetPowerImage(powerLevel);
         }
     }
 
-    // 생명 아이템
     public void BuyLifeItem() {
-        if (minusCandy(lifePrice) && lifeItemCount < 1) {
-            SoundEffectManager.instance.PlayButtonClickSound();
+        if (checkCandy(lifePrice) && lifeItemCount == 1) {
+            if (SoundEffectManager.instance != null) {
+                SoundEffectManager.instance.PlayButtonClickSound();
+            }
+            minusCandy(lifePrice);
             lifeItemCount++;
             PlayerPrefs.SetInt("HP", lifeItemCount);
             uiManager.SetLifeItemCount(lifeItemCount-1);
@@ -73,28 +84,37 @@ public class ReadyManager :MonoBehaviour {
     }
 
     public void BuyPowerItem() {
-        if (minusCandy(powerPrice) && powerItemCount < 3) {
-            SoundEffectManager.instance.PlayButtonClickSound();
+        if (checkCandy(powerPrice) && powerItemCount < MAX_ITEM_COUNT) {
+            if (SoundEffectManager.instance != null) {
+                SoundEffectManager.instance.PlayButtonClickSound();
+            }
+            minusCandy(powerPrice);
             powerItemCount++;
             uiManager.SetPowerItemCount(powerItemCount);
         }
     }
 
     public void BuyBombItem() {
-        if (minusCandy(bombPrice) && bombItemCount < 3) {
-            SoundEffectManager.instance.PlayButtonClickSound();
+        if (checkCandy(bombPrice) && bombItemCount < MAX_ITEM_COUNT) {
+            if (SoundEffectManager.instance != null) {
+                SoundEffectManager.instance.PlayButtonClickSound();
+            }
+            minusCandy(bombPrice);
             bombItemCount++;
             uiManager.SetBombItemCount(bombItemCount);
         }
     }
 
-    private bool minusCandy(int candy) {
+    private void minusCandy(int candy) {
+        this.candy -= candy;
+        PlayerPrefs.SetInt("Candy", this.candy);
+        topBarManager.SetTextCandy(this.candy);
+    }
+
+    private bool checkCandy(int candy) {
         if (this.candy < candy) {
             return false;
         }
-        this.candy -= candy;
-        PlayerPrefs.SetInt("Candy", this.candy);
-        topBarManager.SetTextCandy(candy);
         return true;
     }
 
