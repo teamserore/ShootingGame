@@ -78,7 +78,7 @@ public class UIManager :MonoBehaviour {
 
     public void SetTextResultTime(int time) {
         // TODO(dhUm): time 예쁘게 출력..
-        tvResultTime.text = time + "";
+        tvResultTime.text = time + "초";
     }
 
     public void SetTextRank(int score1, int score2, int score3) {

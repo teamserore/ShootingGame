@@ -3,9 +3,9 @@ using System.Collections;
 
 public class ItemPool : MonoBehaviour {
 
-    public GameObject[] typeItem = new GameObject[3];
+    public GameObject[] typeItem = new GameObject[2];
     public GameObject[,] itemObject;
-    const int TYPE_COUNT = 3;
+    const int TYPE_COUNT = 2;
     const int ITEM_COUNT = 3;
     GameObject go;
     
