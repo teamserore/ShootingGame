@@ -16,6 +16,8 @@ public class ItemManager :MonoBehaviour {
     int powerCount =0;
     int bombCount=0;
 
+    int MAX_ITEM_COUNT = 3;
+
     private static ItemManager _instance;
 
     public static ItemManager instance {
@@ -54,6 +56,9 @@ public class ItemManager :MonoBehaviour {
     public void GetItem(ItemType itemType) {
         switch (itemType) {
             case ItemType.POWER:
+                if (powerCount >= MAX_ITEM_COUNT) {
+                    return;
+                }
                 powerCount++;
                 player.SetPower(player.GetPower() + plusPower);
                 uiManager.SetItemCountText(itemType, powerCount);
@@ -62,6 +67,9 @@ public class ItemManager :MonoBehaviour {
                 StartCoroutine(playerBulletPool.CreatePlayerBullet(playerBulletPool.CheckPowerLv(player.GetPower())));
                 break;
             case ItemType.BOMB:
+                if (bombCount >= MAX_ITEM_COUNT) {
+                    return;
+                }
                 bombCount++;
                 uiManager.SetItemCountText(itemType, bombCount);
                 break;
