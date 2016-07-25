@@ -4,22 +4,28 @@ using System.Collections;
 public class KniefEnemy : EnemyScript {
     private Vector2 playerPos;
     private SpriteRenderer kniefSprite = null;
-    public GameObject kniefWarningSign = null;
-    public GameObject kniefWarningLine = null;
+    private SpriteRenderer signSprite = null;
+    private SpriteRenderer lineSprite = null;
+    private GameObject kniefWarningSign = null;
+    private GameObject kniefWarningLine = null;
 
     void Awake() {
         EnemyIO.getInstance.GetEnemyData(EnemyType.KniefEnemy, out enemyInfo);
+
         kniefSprite = this.gameObject.GetComponent<SpriteRenderer>();
-        playerPos = GameObject.FindWithTag("Player").GetComponent<Transform>().position;
+        playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
+
+        kniefWarningSign = GameObject.FindGameObjectWithTag("Sign");
+        kniefWarningLine = GameObject.FindGameObjectWithTag("Line");
+        signSprite = kniefWarningSign.GetComponent<SpriteRenderer>();
+        lineSprite = kniefWarningLine.GetComponent<SpriteRenderer>();
+
+        this.transform.position = new Vector2(playerPos.x, 60.0f);
     }
     IEnumerator Start() {
-        //밑으로 진행
         kniefSprite.enabled = false;
-        StartCoroutine(KniefWarning()); //경고선 처리, 경고느낌표 처리
-        yield return new WaitForSeconds(3.0f);
+        yield return StartCoroutine(KniefWarning()); //경고선 처리, 경고느낌표 처리
         kniefSprite.enabled = true;
-        this.transform.position = new Vector2(playerPos.x, 9.0f);
-       
     }
     void Update() {
         this.transform.Rotate(0.0f, 0.0f, Time.deltaTime * 150); // 회전
@@ -29,25 +35,21 @@ public class KniefEnemy : EnemyScript {
             this.gameObject.SetActive(false);
         }
     }
-
     void OnTriggerEnter2D(Collider2D coll) {
         if (coll.gameObject.tag == "Bomb") {
             Die(); //폭탄과 충돌시 처리
         }
-        else if (coll.gameObject.tag == "Player") {
-            //player.DownHP(100); // Player와 충돌시 처리
-        }
     }
     //나이프경고라인 처리 코루틴
     private IEnumerator KniefWarning() {
-        kniefWarningLine.SetActive(true);
+        lineSprite.enabled = true;
         kniefWarningLine.transform.position = new Vector2(playerPos.x, 0);
         yield return new WaitForSeconds(2.0f);
-        kniefWarningLine.SetActive(false);
-    //나이프경고사인 처리 코루틴
-        kniefWarningSign.SetActive(true);
+        lineSprite.enabled = false;
+        //나이프경고사인 처리 코루틴
+        signSprite.enabled = true;
         kniefWarningSign.transform.position = new Vector2(playerPos.x, 9.0f);
         yield return new WaitForSeconds(1.0f);
-        kniefWarningSign.SetActive(false);
+        signSprite.enabled = false;
     }
 }
