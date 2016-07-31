@@ -132,6 +132,7 @@ public class ItemManager :MonoBehaviour {
         bomb.transform.Translate(new Vector3(0, 0.2f));
         if (bomb.transform.localPosition.y > 20) {
             bomb.SetActive(false);
+            bomb.transform.Translate(new Vector3(0, -40f));
             yield break;
         }
         StartCoroutine(ClearMap());

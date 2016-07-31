@@ -40,7 +40,7 @@ public class TobBarManager : MonoBehaviour {
         GameManager gameManager = FindObjectOfType<GameManager>();
         if (flag) {
             Time.timeScale = 0;
-            gameManager.GS = GameState.Play;
+            gameManager.GS = GameState.Pause;
         } else {
             Time.timeScale = 1;
             gameManager.GS = GameState.Play;
