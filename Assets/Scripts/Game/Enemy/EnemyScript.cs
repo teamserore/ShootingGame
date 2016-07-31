@@ -23,7 +23,10 @@ public class EnemyScript : MonoBehaviour {
 	}
 
 	protected void Die () {
-		EnemyManager.instance.DieEnemy(gameObject);
+        if (SoundEffectManager.instance != null) {
+            SoundEffectManager.instance.PlayEnemyDieSound();
+        }
+        EnemyManager.instance.DieEnemy(gameObject);
         if (hasItem) {
             ItemManager.instance.CreateItem(itemType, gameObject);
         }

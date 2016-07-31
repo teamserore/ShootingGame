@@ -47,6 +47,7 @@ public class GameManager :MonoBehaviour {
 
     public void GameOver() {
         GS = GameState.End;
+        Time.timeScale = 0;
         uiManager.SetInGameView(false);
         uiManager.SetResultView(true);
         uiManager.SetTextResultCandy(candy);
@@ -92,7 +93,6 @@ public class GameManager :MonoBehaviour {
     }
 
     public void PlusCandy(int plusCandy) {
-        Debug.Log("PlustCandy" + plusCandy);
         candy += plusCandy;
         uiManager.SetTextCandy(candy);
         StartCoroutine(PopupPlusCandy(plusCandy));

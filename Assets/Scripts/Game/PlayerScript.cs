@@ -87,7 +87,10 @@ public class PlayerScript : MonoBehaviour {
     }
 
     private void Die(){
-		transform.Rotate(new Vector3(0, 0, 10)); // spin effect
+        if (SoundEffectManager.instance != null) {
+            SoundEffectManager.instance.PlayUserDieSound();
+        }
+        transform.Rotate(new Vector3(0, 0, 10)); // spin effect
         Destroy(gameObject);
         gameManager.GameOver();
     }

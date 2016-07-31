@@ -54,6 +54,9 @@ public class ItemManager :MonoBehaviour {
     }
 
     public void GetItem(ItemType itemType) {
+        if (SoundEffectManager.instance != null) {
+            SoundEffectManager.instance.PlayGetItemSound();
+        }
         switch (itemType) {
             case ItemType.POWER:
                 if (powerCount >= MAX_ITEM_COUNT) {
@@ -102,6 +105,9 @@ public class ItemManager :MonoBehaviour {
     }
 
     public void UsePower() {
+        if (SoundEffectManager.instance != null) {
+            SoundEffectManager.instance.PlayUsePowerItemSound();
+        }
         //TODO(SHBoo)캐릭터 파워수정, 코루틴 호출
         StartCoroutine(FeverTime());
     }
@@ -114,6 +120,9 @@ public class ItemManager :MonoBehaviour {
     }
 
     public void UseBomb() {
+        if (SoundEffectManager.instance != null) {
+            SoundEffectManager.instance.PlayUseBombItemSound();
+        }
         bomb.SetActive(true);
         StartCoroutine(ClearMap());
     }
