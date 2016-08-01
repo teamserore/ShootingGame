@@ -33,12 +33,13 @@ public class ItemManager :MonoBehaviour {
     }
 
     void Start() {
+		/*
         ReadyManager readyManager = GameObject.Find("ReadyManager").GetComponent<ReadyManager>();
         powerCount = readyManager.GetPowerItemCount();
         bombCount = readyManager.GetBombItemCount();
-        uiManager.SetItemCountText(ItemType.POWER, powerCount);
+        */uiManager.SetItemCountText(ItemType.POWER, powerCount);
         uiManager.SetItemCountText(ItemType.BOMB, bombCount);
-        Destroy(GameObject.Find("ReadyManager"));
+        //Destroy(GameObject.Find("ReadyManager"));
 
         DefSettingIO.getInstance.GetData("PlusLife", out plusLife);
         DefSettingIO.getInstance.GetData("FeverTimeCount", out feverTimeCount);
@@ -65,9 +66,10 @@ public class ItemManager :MonoBehaviour {
                 powerCount++;
                 player.SetPower(player.GetPower() + plusPower);
                 uiManager.SetItemCountText(itemType, powerCount);
-                playerBulletPool.StopAllCoroutines();
+                //playerBulletPool.StopAllCoroutines();
                 //코루틴 재시작
-                StartCoroutine(playerBulletPool.CreatePlayerBullet(playerBulletPool.CheckPowerLv(player.GetPower())));
+                //StartCoroutine(playerBulletPool.CreatePlayerBullet(playerBulletPool.CheckPowerLv(player.GetPower())));
+			playerBulletPool.UpgradeLevel();
                 break;
             case ItemType.BOMB:
                 if (bombCount >= MAX_ITEM_COUNT) {
@@ -112,12 +114,19 @@ public class ItemManager :MonoBehaviour {
         StartCoroutine(FeverTime());
     }
 
-    IEnumerator FeverTime() {
+	IEnumerator FeverTime() {
+		int prevLevel = playerBulletPool.ReturnCurrentPower();
+		playerBulletPool.MaxPower();
+		yield return new WaitForSeconds(feverTimeCount);
+		playerBulletPool.DowngradeLevel(prevLevel);
+	}
+	
+	/*IEnumerator FeverTime() {
         int prePower = player.GetPower();
         player.SetPower(feverPower);
         yield return new WaitForSeconds(feverTimeCount);
         player.SetPower(prePower);
-    }
+    }*/
 
     public void UseBomb() {
         if (SoundEffectManager.instance != null) {

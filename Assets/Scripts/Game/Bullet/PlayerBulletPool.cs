@@ -11,6 +11,8 @@ public class PlayerBulletPool : MonoBehaviour {
     private int maxPlayerBullet = 11;
     private int currentPowerLV; // +1한 값이 실제 레벨
 
+
+
     void Start() {
         playerBulletPoint = GameObject.Find("FirePos").GetComponentInChildren<Transform>(); //발사위치확인
         /*프리팹 연결*/
@@ -42,12 +44,30 @@ public class PlayerBulletPool : MonoBehaviour {
         }
     }
 
+	public void UpgradeLevel()
+	{
+		if(currentPowerLV < 10)
+		currentPowerLV++;
+
+	}
+
+	public void DowngradeLevel(int level)
+	{
+		currentPowerLV = level;
+		currentPowerLV --;
+	}
+	public void MaxPower()
+	{
+		currentPowerLV = 10;
+
+	}
+
     public IEnumerator CreatePlayerBullet(int level) {
         while (GameManager.instance.GS != GameState.End) { // Repeat until game over 
             yield return new WaitForSeconds(playerBulletFrequency); // yield time to main loop
             if (GameManager.instance.GS == GameState.End) { yield break; } // Break coroutine when game over
             foreach (GameObject playerBullet in playerBulletPool) {
-                if (!playerBullet.activeSelf && playerBullet.name == level.ToString()) {
+				if (!playerBullet.activeSelf && playerBullet.name == currentPowerLV.ToString()) {
                     playerBullet.transform.position = playerBulletPoint.position; // Set Bullet's spawn point
                     playerBullet.GetComponent<BoxCollider2D>().enabled = true;
                     playerBullet.SetActive(true);
@@ -57,18 +77,23 @@ public class PlayerBulletPool : MonoBehaviour {
         }
     }
 
-    public int CheckPowerLv(float pw) {
-        if (pw == 1.0f) { return 0; }
-        else if (pw == 1.4f){ return 1; }
-        else if (pw == 1.8f){ return 2; }
-        else if (pw == 2.2f){ return 3; }
-        else if (pw == 2.6f){ return 4; }
-        else if (pw == 3.0f){ return 5; }
-        else if (pw == 3.4f){ return 6; }
-        else if (pw == 3.8f){ return 7; }
-        else if (pw == 4.2f){ return 8; }
-        else if (pw == 4.6f){ return 9; }
-        else if (pw == 20.0f){ return 10; }
+	public int ReturnCurrentPower()
+	{
+		return currentPowerLV;
+	}
+
+    public int CheckPowerLv(int pw) {
+        if (pw == 10) { return 0; }
+        else if (pw == 14){ return 1; }
+        else if (pw == 18){ return 2; }
+        else if (pw == 22){ return 3; }
+        else if (pw == 26){ return 4; }
+        else if (pw == 30){ return 5; }
+        else if (pw == 34){ return 6; }
+        else if (pw == 38){ return 7; }
+        else if (pw == 42){ return 8; }
+        else if (pw == 46){ return 9; }
+        else if (pw == 200){ return 10; }
         else {
             Debug.Log("플레이어 탄 레벨 에러");
             return -1;

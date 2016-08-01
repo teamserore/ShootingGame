@@ -14,9 +14,11 @@ public class PlayerScript : MonoBehaviour {
         int powerLevel = PlayerPrefs.GetInt("PowerLevel", 1);
         StatStruct tempData;
         StatIO.getInstance.GetStatData(powerLevel, out tempData);
-        playerInfo.power = tempData.power;
-        playerInfo.maxHP = PlayerPrefs.GetInt("HP", 1);
-        playerInfo.hp = PlayerPrefs.GetInt("HP", 1);
+		
+		playerInfo.power = tempData.power;
+		playerInfo.hp  = playerInfo.maxHP = PlayerPrefs.GetInt("HP", 100);
+		
+        //playerInfo.hp = PlayerPrefs.GetInt("HP", 100);
     }
 
     void Update()
@@ -66,7 +68,9 @@ public class PlayerScript : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D coll) {
-		if (coll.gameObject.tag == "Enemy" || coll.gameObject.tag == "Bullet") {
+		if (coll.gameObject.tag == "Bullet") {
+//		if (coll.gameObject.tag == "Enemy" || coll.gameObject.tag == "Bullet") {
+			print ("die");
 			DownHP();
 		} 
     }
