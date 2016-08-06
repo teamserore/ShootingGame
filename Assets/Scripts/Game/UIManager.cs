@@ -24,10 +24,11 @@ public class UIManager :MonoBehaviour {
    
 
     void Start() {
-        tvScore.text = PlayerPrefs.GetInt("BestScore", 3) + "";
+        tvScore.text = PlayerPrefs.GetInt("BestScore", 0) + "";
     }
 
     public void SetItemCountText(ItemType itemType, int count) {
+		print ("SetItemCountText : " + itemType  + " coutn : " + count);
         switch (itemType) {
             case ItemType.POWER:
                 itemPowerCount.text = count + "";

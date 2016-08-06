@@ -24,16 +24,25 @@ public class ReadyManager :MonoBehaviour {
     void Start() {
         candy = PlayerPrefs.GetInt("Candy", 100000);
         powerLevel = PlayerPrefs.GetInt("PowerLevel", 1);
+		powerItemCount = PlayerPrefs.GetInt("PowerItemCount", 0);
+		bombItemCount = PlayerPrefs.GetInt("BombItemCount", 0);
+
         DefSettingIO.getInstance.GetData("LifePrice", out lifePrice);
         DefSettingIO.getInstance.GetData("PowerPrice", out powerPrice);
         DefSettingIO.getInstance.GetData("BombPrice", out bombPrice);
         uiManager.SetPowerLevel(powerLevel);
         uiManager.SetPowerImage(powerLevel);
+		uiManager.SetPowerItemCount(powerItemCount);
+		uiManager.SetBombItemCount(bombItemCount);
+
         StatStruct nextData;
         StatIO.getInstance.GetStatData(powerLevel, out nextData);
         uiManager.SetPowerLevelPrice(nextData.candyForPower);
         PlayerPrefs.SetInt("HP", lifeItemCount);
+
         DontDestroyOnLoad(gameObject);
+
+
     }
 
     void Update() {
@@ -91,6 +100,7 @@ public class ReadyManager :MonoBehaviour {
             minusCandy(powerPrice);
             powerItemCount++;
             uiManager.SetPowerItemCount(powerItemCount);
+			PlayerPrefs.SetInt("PowerItemCount", bombItemCount);
         }
     }
 
@@ -102,6 +112,7 @@ public class ReadyManager :MonoBehaviour {
             minusCandy(bombPrice);
             bombItemCount++;
             uiManager.SetBombItemCount(bombItemCount);
+			PlayerPrefs.SetInt("BombItemCount", bombItemCount);
         }
     }
 

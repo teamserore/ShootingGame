@@ -11,7 +11,7 @@ public class PlayerScript : MonoBehaviour {
         playerInfo = new PlayerStruct();
         DefSettingIO.getInstance.GetData("UserSpeed", out playerInfo.speed);
 
-        int powerLevel = PlayerPrefs.GetInt("PowerLevel", 1);
+		int powerLevel = PlayerPrefs.GetInt("PowerLevel", 1);
         StatStruct tempData;
         StatIO.getInstance.GetStatData(powerLevel, out tempData);
 		
@@ -68,9 +68,7 @@ public class PlayerScript : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D coll) {
-		if (coll.gameObject.tag == "Bullet") {
-//		if (coll.gameObject.tag == "Enemy" || coll.gameObject.tag == "Bullet") {
-			print ("die");
+		if (coll.gameObject.tag == "Enemy" || coll.gameObject.tag == "EnemyBullet") {
 			DownHP();
 		} 
     }

@@ -37,7 +37,14 @@ public class ItemManager :MonoBehaviour {
         ReadyManager readyManager = GameObject.Find("ReadyManager").GetComponent<ReadyManager>();
         powerCount = readyManager.GetPowerItemCount();
         bombCount = readyManager.GetBombItemCount();
-        */uiManager.SetItemCountText(ItemType.POWER, powerCount);
+        */
+		powerCount = PlayerPrefs.GetInt("PowerItemCount", 0);
+		bombCount = PlayerPrefs.GetInt("BombItemCount", 0);
+
+		PlayerPrefs.SetInt("PowerItemCount", 0);
+		PlayerPrefs.SetInt("BombItemCount", 0);
+
+		uiManager.SetItemCountText(ItemType.POWER, powerCount);
         uiManager.SetItemCountText(ItemType.BOMB, bombCount);
         //Destroy(GameObject.Find("ReadyManager"));
 

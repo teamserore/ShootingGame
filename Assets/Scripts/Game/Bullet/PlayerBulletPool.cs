@@ -28,7 +28,7 @@ public class PlayerBulletPool : MonoBehaviour {
         playerBulletprefab[9] = Resources.Load("Prefabs/PlayerBullet9") as GameObject;
         playerBulletprefab[10] = Resources.Load("Prefabs/PlayerBullet10") as GameObject;
         /*현재 파워 검사  */
-        currentPowerLV = 3; //CheckPowerLv(playerScript.playerInfo.power);
+		currentPowerLV = PlayerPrefs.GetInt("PowerLevel", 1);
 
         for (int i = 0; i < 11 - currentPowerLV; i++) {
 
