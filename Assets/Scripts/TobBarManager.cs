@@ -33,6 +33,10 @@ public class TobBarManager : MonoBehaviour {
         if (SoundEffectManager.instance != null) {
             SoundEffectManager.instance.PlayButtonClickSound();
         }
+        if (flag) {
+            soundSlider.value = GameObject.Find("SoundEffect").GetComponent<SoundEffectManager>().GetVolume();
+            bgmSlider.value = GameObject.Find("BGM").GetComponent<BgmManager>().GetVolume();
+        }
         SettingView.SetActive(flag);
     }
 

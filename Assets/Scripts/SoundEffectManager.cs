@@ -68,4 +68,8 @@ public class SoundEffectManager : MonoBehaviour {
     public void SoundEffectValueChanged(float value) {
         audio.volume = value;
     }
+
+    public float GetVolume() {
+        return audio.volume;
+    }
 }

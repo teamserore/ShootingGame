@@ -62,4 +62,8 @@ public class BgmManager : MonoBehaviour {
         audio.volume = value;
         Debug.Log("valueChanged: "+ value);
     }
+
+    public float GetVolume() {
+        return audio.volume;
+    }
 }

@@ -100,7 +100,7 @@ public class ReadyManager :MonoBehaviour {
             minusCandy(powerPrice);
             powerItemCount++;
             uiManager.SetPowerItemCount(powerItemCount);
-			PlayerPrefs.SetInt("PowerItemCount", bombItemCount);
+			PlayerPrefs.SetInt("PowerItemCount", powerItemCount);
         }
     }
 
