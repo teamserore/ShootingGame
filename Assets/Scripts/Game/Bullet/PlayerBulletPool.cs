@@ -13,7 +13,8 @@ public class PlayerBulletPool : MonoBehaviour {
 
 
 
-    void Start() {
+    IEnumerator Start() {
+        yield return new WaitForEndOfFrame();
         playerBulletPoint = GameObject.Find("FirePos").GetComponentInChildren<Transform>(); //발사위치확인
         /*프리팹 연결*/
         playerBulletprefab[0] = Resources.Load("Prefabs/PlayerBullet1") as GameObject;
@@ -29,6 +30,7 @@ public class PlayerBulletPool : MonoBehaviour {
         playerBulletprefab[10] = Resources.Load("Prefabs/PlayerBullet11") as GameObject;
         /*현재 파워 검사  */
         currentPowerLV = PlayerPrefs.GetInt("PowerLevel", 1);
+     //   currentPowerLV--;
 
         for (int i = 0; i < 12 - currentPowerLV; i++) {
 
@@ -40,12 +42,13 @@ public class PlayerBulletPool : MonoBehaviour {
             }
         }
         if (playerBulletPoint != null) {
+            currentPowerLV += ItemManager.instance.ReturnPowerCount();
             StartCoroutine(this.CreatePlayerBullet(currentPowerLV)); // Object Pooling
         }
     }
 
     public void UpgradeLevel() {
-        if (currentPowerLV < 10)
+        if (currentPowerLV < 9)
             currentPowerLV++;
 
     }

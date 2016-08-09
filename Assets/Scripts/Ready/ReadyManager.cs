@@ -22,6 +22,7 @@ public class ReadyManager :MonoBehaviour {
     int bombItemCount = 0;
 
     void Start() {
+        //PlayerPrefs.SetInt("PowerLevel", 1);
         candy = PlayerPrefs.GetInt("Candy", 100000);
         powerLevel = PlayerPrefs.GetInt("PowerLevel", 1);
 		powerItemCount = PlayerPrefs.GetInt("PowerItemCount", 0);
@@ -64,10 +65,17 @@ public class ReadyManager :MonoBehaviour {
         StatStruct curData;
         StatIO.getInstance.GetStatData(powerLevel, out curData);
 
-        if (checkCandy(curData.candyForPower)) {
-            if (SoundEffectManager.instance != null) {
+        if (powerLevel >= 10)
+            return;
+
+        if (checkCandy(curData.candyForPower))
+        {
+            if (SoundEffectManager.instance != null)
+            {
                 SoundEffectManager.instance.PlayButtonClickSound();
             }
+            
+
             minusCandy(curData.candyForPower);
             powerLevel++;
             PlayerPrefs.SetInt("PowerLevel", powerLevel);

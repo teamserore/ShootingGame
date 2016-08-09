@@ -30,6 +30,7 @@ public class ReadyUIManager : MonoBehaviour {
 
     /** Power Level */
     public void SetPowerLevel(int level) {
+
         if (level == 10) {
             powerLevel.text = "Lv. MAX";
             return;

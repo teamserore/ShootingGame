@@ -61,6 +61,19 @@ public class ItemManager :MonoBehaviour {
         return itemPool.NewItem(type, respawn);
     }
 
+    public void CheckPowerItem()
+    {
+        if (powerCount > 0)
+        {
+            player.SetPower(player.GetPower() + plusPower);
+        }
+    }
+
+    public int ReturnPowerCount()
+    {
+        return powerCount;
+    }
+
     public void GetItem(ItemType itemType) {
         if (SoundEffectManager.instance != null) {
             SoundEffectManager.instance.PlayGetItemSound();
@@ -93,7 +106,8 @@ public class ItemManager :MonoBehaviour {
     public void UseItem(ItemType itemType) {
         switch (itemType) {
             case ItemType.POWER:
-                if (powerCount == 0) {
+                if (powerCount == 0 || playerBulletPool.ReturnCurrentPower() == 11)
+                {
                     break;
                 }
                 powerCount--;
@@ -123,6 +137,7 @@ public class ItemManager :MonoBehaviour {
 
 	IEnumerator FeverTime() {
 		int prevLevel = playerBulletPool.ReturnCurrentPower();
+        print("prev : " + prevLevel);
 		playerBulletPool.MaxPower();
 		yield return new WaitForSeconds(feverTimeCount);
 		playerBulletPool.DowngradeLevel(prevLevel);

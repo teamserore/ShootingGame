@@ -83,6 +83,7 @@ public class GameManager :MonoBehaviour {
     }
 
     public void MainGo() {
+        if(SoundEffectManager.instance != null)
         SoundEffectManager.instance.PlayButtonClickSound();
         MSceneManager.MainGo();
     }
