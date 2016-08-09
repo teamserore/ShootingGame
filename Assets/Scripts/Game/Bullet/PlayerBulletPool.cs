@@ -41,8 +41,14 @@ public class PlayerBulletPool : MonoBehaviour {
                 playerBulletPool.Add(playerBullet); // Add created bullet to Object pool 
             }
         }
-        if (playerBulletPoint != null) {
+        if (playerBulletPoint != null) 
+		{
             currentPowerLV += ItemManager.instance.ReturnPowerCount();
+
+			if(currentPowerLV > 10)
+			{
+				currentPowerLV = 10;
+			}
             StartCoroutine(this.CreatePlayerBullet(currentPowerLV)); // Object Pooling
         }
     }
