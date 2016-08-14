@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class IntroManager : MonoBehaviour {
-
     public GameObject ExitView;
 
     AudioSource audio;
