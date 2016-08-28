@@ -4,8 +4,6 @@ using System.Collections;
 public class IntroManager : MonoBehaviour {
     public GameObject ExitView;
 
-    AudioSource audio;
-
     void Start() {
         BgmManager.instance.PlayMainBgm();
     }
@@ -29,6 +27,7 @@ public class IntroManager : MonoBehaviour {
     }
 
     public void ReadyGo() {
+        Debug.Log("RedayGO");
         SoundEffectManager.instance.PlayButtonClickSound();
         MSceneManager.ReadyGo();
     }

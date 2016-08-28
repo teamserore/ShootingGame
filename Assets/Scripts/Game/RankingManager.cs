@@ -1,14 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class RankingManager : MonoBehaviour
 {
-    private GameManager gameManager = null;
     int[] scores = new int[6];
-
-    void Awake() {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-    }
 
     void Start() {
         scores[0] = PlayerPrefs.GetInt("BestScore", 0);

@@ -143,13 +143,6 @@ public class ItemManager :MonoBehaviour {
 		playerBulletPool.DowngradeLevel(prevLevel);
 	}
 	
-	/*IEnumerator FeverTime() {
-        int prePower = player.GetPower();
-        player.SetPower(feverPower);
-        yield return new WaitForSeconds(feverTimeCount);
-        player.SetPower(prePower);
-    }*/
-
     public void UseBomb() {
         if (SoundEffectManager.instance != null) {
             SoundEffectManager.instance.PlayUseBombItemSound();
