@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class SplashManager : MonoBehaviour {
-	public float delayTime = 3;
+	public float delayTime = 2;
 
 	//Using this for initialization
 	IEnumerator Start(){
