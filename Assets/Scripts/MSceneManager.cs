@@ -16,17 +16,17 @@ public class MSceneManager : MonoBehaviour {
     }
     public static void MainGo () {
         Time.timeScale = 1;
-        SceneManager.LoadSceneAsync(0);
+        SceneManager.LoadSceneAsync(1);
     }
 
     public static void ReadyGo (){
         Time.timeScale = 1;
-        SceneManager.LoadSceneAsync(1);
+        SceneManager.LoadSceneAsync(2);
     }
 
     public static void GameGo()
     {
         Time.timeScale = 1;
-        SceneManager.LoadSceneAsync(2);
+        SceneManager.LoadSceneAsync(3);
     }
 }
