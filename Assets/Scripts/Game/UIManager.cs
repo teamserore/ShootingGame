@@ -24,7 +24,7 @@ public class UIManager :MonoBehaviour {
    
 
     void Start() {
-        tvScore.text = PlayerPrefs.GetInt("BestScore", 0) + "";
+        tvScore.text = PlayerPrefs.GetInt("Score1", 0) + "";
     }
 
     public void SetItemCountText(ItemType itemType, int count) {

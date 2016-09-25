@@ -23,7 +23,7 @@ public class ReadyManager :MonoBehaviour {
 
     void Start() {
         //PlayerPrefs.SetInt("PowerLevel", 1);
-        candy = PlayerPrefs.GetInt("Candy", 100000);
+        candy = PlayerPrefs.GetInt("Candy", 0);
         powerLevel = PlayerPrefs.GetInt("PowerLevel", 1);
 		powerItemCount = PlayerPrefs.GetInt("PowerItemCount", 0);
 		bombItemCount = PlayerPrefs.GetInt("BombItemCount", 0);
