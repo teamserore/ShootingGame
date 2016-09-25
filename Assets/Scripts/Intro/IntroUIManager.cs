@@ -7,6 +7,6 @@ public class IntroUIManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        tvBestScore.text = PlayerPrefs.GetInt("BestScore", 0) + "";
+        tvBestScore.text = PlayerPrefs.GetInt("Score1", 0) + "";
     }
 }
